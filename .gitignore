@@ -1,19 +1,138 @@
-# Build and Release Folders
+  Directories #
+build/
 bin/
-bin-debug/
-bin-release/
-[Oo]bj/ # FlashDevelop obj
-[Bb]in/ # FlashDevelop bin
+target/
+libs/
+tmp/
+node_modules/
+jaxws/jaxws-client/src/main/
+jaxws/jaxws-endpoint/src/main/webapp/WEB-INF/wsdl/
+ 
+# OS Files #
+.DS_Store
+ 
+*.class
+ 
+# Package Files #
+*.jar
+*.war
+*.ear
+*.db
+rebel.xml
 
-# Other files and folders
+######################
+# Windows
+######################
+ 
+# Windows image file caches
+Thumbs.db 
+ 
+# Folder config file
+Desktop.ini
+ 
+######################
+# OSX
+######################
+ 
+.DS_Store
+.svn
+ 
+# Thumbnails
+._*
+ 
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+######################
+# NetBeans
+######################
+nbproject/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+ 
+######################
+# IDEA
+######################
+*.iml
+*.ipr
+*.iws
+.idea/
+atlassian-ide-plugin.xml
+
+ 
+######################
+# Eclipse
+######################
+ 
+*.pydevproject
+.project
+.metadata
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
 .settings/
+.loadpath
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+# External tool builders
+.externalToolBuilders/
+ 
+# Locally stored "Eclipse launch configurations"
+*.launch
+ 
+# CDT-specific
+.cproject
+ 
+# PDT-specific
+.buildpath
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# Testing environment specific
+derby.log
+
+
+######################
+# Liberty tools
+######################
+
+.factorypath
+
+######################
+#spring
+######################
+*#
+*.iml
+*.ipr
+*.iws
+*.sw?
+*~
+.#*
+.*.md.html
+.factorypath
+.gradle
+.idea
+.metadata
+.recommenders
+.settings
+.springBeans
+/build
+/code
+_site/
+activemq-data
+dependency-reduced-pom.xml
+dump.rdb
+interpolated*.xml
+lib/
+manifest.yml
+overridedb.*
+settings.xml
+target
+transaction-logs
+.flattened-pom.xml
+secrets.yml
