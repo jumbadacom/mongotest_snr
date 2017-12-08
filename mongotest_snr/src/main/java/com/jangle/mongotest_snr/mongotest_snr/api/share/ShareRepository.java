@@ -1,7 +1,5 @@
 package com.jangle.mongotest_snr.mongotest_snr.api.share;
 
-import java.util.Optional;
-
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.jangle.mongotest_snr.mongotest_snr.api.comment;
+package com.jangle.mongotest_snr.mongotest_snr.api.comment2;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Document(collection="comments")
-public class Comment {
+public class TemplateComment {
 	
 	@Id
 	private String id;
@@ -30,6 +30,13 @@ public class Comment {
 	private String extra4;
 	private String extra5;
 
+	
+	
+	
+	
+	
+	
+	
 	
 
 }
