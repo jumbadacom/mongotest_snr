@@ -1,0 +1,58 @@
+
+
+           criteria = criteria.and("_id").is(new ObjectId(id));
+ 
+
+	   // equality   we\u2019re looking for comments sharedId 5a27a888e7773b44bd37010d	 
+		   Query query = new Query();
+		   query.limit(10);
+		   query.addCriteria(Criteria.where("sharedId").is("5a27a888e7773b44bd37010d")); 
+		   List<Comment> comments =mongoOperations.find(query, Comment.class);
+		 
+	
+		//pagination
+			Query query = new Query();
+    			query.addCriteria(Criteria.where("sharedId").is("5a27a888e7773b44bd37010d"));
+    			query.skip(10);
+    			query.limit(10);
+    			List<Comment> comments = mongoOperations.find(query, Comment);
+		 
+		
+		
+		//$regex  all comments that have names starting with A
+	       	Query query = new Query();
+			query.addCriteria(Criteria.where("text").regex("^A"));
+			query.limit(10);
+			List<Comment> comments = mongoOperations.find(query,Comment.class);
+			
+			
+			
+	    //$regex  all comments that have names ending with c
+			Query query = new Query();
+			query.addCriteria(Criteria.where("text").regex("c$"));
+			query.limit(10);
+			List<Comment> comments = mongoOperations.find(query, Comment.class);
+			
+			
+			
+		// all comments which with an likeCount of greater than 20 and less than 50
+			Query query = new Query();
+			query.addCriteria(Criteria.where("likeCount").lt(50).gt(20));
+			query.limit(10);
+			List<Comment> comments = mongoOperations.find(query,Comment.class);
+
+			
+	   //sort 		
+			Query query = new Query();
+			query.with(new Sort(Sort.Direction.ASC, "likeCount"));
+			List<Comment> comments = mongoOperations.find(query,Comment.class);
+			
+			
+		//pagining
+			final Pageable pageableRequest = PageRequest.of(0, 2);
+		    Query query = new Query();
+		    query.with(pageableRequest);		
+			
+			
+			
+			

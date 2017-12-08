@@ -2,18 +2,19 @@ package com.jangle.mongotest_snr.mongotest_snr.api.comment2;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TemplateCommentServiceImpl implements TemplateCommentService {
 
-	private TemplateCommentRepository templateCommentRepository;
+	private final TemplateCommentRepository templateCommentRepository;
 
+	@Autowired
 	public TemplateCommentServiceImpl(TemplateCommentRepository templateCommentRepository) {
 		this.templateCommentRepository = templateCommentRepository;
 	}
-
 
 	@Override
 	public ResponseEntity<List<TemplateComment>> getAllTemplateComment(Integer page, Integer size) {
@@ -30,4 +31,5 @@ public class TemplateCommentServiceImpl implements TemplateCommentService {
 			return ResponseEntity.ok(comment);
 	}
 
+	
 }

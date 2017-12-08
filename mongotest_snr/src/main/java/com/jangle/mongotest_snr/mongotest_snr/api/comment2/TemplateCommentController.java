@@ -2,6 +2,7 @@ package com.jangle.mongotest_snr.mongotest_snr.api.comment2;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TemplateCommentController {
 
-	private TemplateCommentService templateCommentService;
+	private final TemplateCommentService templateCommentService;
 
+	@Autowired
 	public TemplateCommentController(TemplateCommentService templateCommentService) {
 		this.templateCommentService = templateCommentService;
 	}
