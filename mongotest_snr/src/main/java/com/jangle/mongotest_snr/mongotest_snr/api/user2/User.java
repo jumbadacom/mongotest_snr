@@ -1,4 +1,4 @@
-package com.jangle.mongotest_snr.mongotest_snr.api.user;
+package com.jangle.mongotest_snr.mongotest_snr.api.user2;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

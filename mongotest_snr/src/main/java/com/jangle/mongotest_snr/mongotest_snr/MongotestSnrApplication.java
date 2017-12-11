@@ -16,8 +16,8 @@ import com.jangle.mongotest_snr.mongotest_snr.api.comment.Comment;
 import com.jangle.mongotest_snr.mongotest_snr.api.comment.CommentRepository;
 import com.jangle.mongotest_snr.mongotest_snr.api.share.Share;
 import com.jangle.mongotest_snr.mongotest_snr.api.share.ShareRepository;
-import com.jangle.mongotest_snr.mongotest_snr.api.user.User;
-import com.jangle.mongotest_snr.mongotest_snr.api.user.UserRepository;
+import com.jangle.mongotest_snr.mongotest_snr.api.user2.User;
+import com.jangle.mongotest_snr.mongotest_snr.api.user2.UserRepository;
 
 @SpringBootApplication
 public class MongotestSnrApplication {

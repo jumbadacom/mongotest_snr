@@ -5,12 +5,13 @@ import java.util.List;
 import org.springframework.cglib.core.Predicate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface CommentRepository extends MongoRepository<Comment, String> {
+public interface CommentRepository extends MongoRepository<Comment, String>,QuerydslPredicateExecutor<Comment> {
 
 	//http://www.baeldung.com/queries-in-spring-data-mongodb
 	//https://github.com/spring-projects/spring-data-examples/tree/master/web/querydsl
