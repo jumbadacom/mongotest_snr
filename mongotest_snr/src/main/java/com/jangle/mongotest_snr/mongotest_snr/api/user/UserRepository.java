@@ -6,14 +6,13 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
-
-import com.jangle.mongotest_snr.mongotest_snr.api.comment.Comment;
 
 /*Dao - Auto CRUD + Manuel eklenen*/
 @Repository
-public interface UserRepository extends MongoRepository<User, String> , QuerydslPredicateExecutor<Comment> {
+public interface UserRepository extends MongoRepository<User, String> 
+//, QuerydslPredicateExecutor<Comment> 
+{
 
 	public Optional<User> findByEmail(String email);
 	

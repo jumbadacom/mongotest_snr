@@ -2,9 +2,6 @@ package com.jangle.mongotest_snr.mongotest_snr.api.user;
 
 import java.util.List;
 
-import org.springframework.cglib.core.Predicate;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService  {

@@ -1,16 +1,7 @@
 package com.jangle.mongotest_snr.mongotest_snr.api.comment2;
 
-import java.util.List;
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-
-import com.jangle.mongotest_snr.mongotest_snr.api.comment.Comment;
 
 
 public class TemplateCommentRepositoryImpl implements TemplateCommentRepositoryCustom {
@@ -35,8 +26,6 @@ public class TemplateCommentRepositoryImpl implements TemplateCommentRepositoryC
 	public TemplateComment findTemplateCommentById(String id) {
 		
 		return mongoOperations.findById(id, TemplateComment.class);
-		
-		
 		
 	}
 

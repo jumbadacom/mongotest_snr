@@ -1,7 +1,5 @@
 package com.jangle.mongotest_snr.mongotest_snr.api.comment2;
 
-import java.util.List;
-
 public interface TemplateCommentRepositoryCustom {
 	
 //	public void inserts(List<TemplateComment> appComments);

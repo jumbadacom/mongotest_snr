@@ -1,23 +1,7 @@
 package com.jangle.mongotest_snr.mongotest_snr;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.PageRequest;
-
-import com.jangle.mongotest_snr.mongotest_snr.api.comment.Comment;
-import com.jangle.mongotest_snr.mongotest_snr.api.comment.CommentRepository;
-import com.jangle.mongotest_snr.mongotest_snr.api.share.Share;
-import com.jangle.mongotest_snr.mongotest_snr.api.share.ShareRepository;
-import com.jangle.mongotest_snr.mongotest_snr.api.user2.TemplateUser;
-import com.jangle.mongotest_snr.mongotest_snr.api.user2.TemplateUserRepository;
 
 @SpringBootApplication
 public class MongotestSnrApplication {
@@ -29,8 +13,8 @@ public class MongotestSnrApplication {
 
 	}
 
-	/* Initializer */
-	@Bean
+	// Initializer 
+/*	@Bean
 	public CommandLineRunner init(TemplateUserRepository userRepository,ShareRepository shareRepository, CommentRepository commentRepository)
 	{
 		
@@ -127,5 +111,5 @@ public class MongotestSnrApplication {
 			System.out.println((c1.getId()!=null)?"Başarılı - "+c1.getId():" Başarısız");
 			
 			};
-	}
+	}*/
 }

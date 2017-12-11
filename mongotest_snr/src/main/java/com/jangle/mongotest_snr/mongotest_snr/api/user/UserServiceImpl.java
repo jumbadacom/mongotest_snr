@@ -3,22 +3,20 @@ package com.jangle.mongotest_snr.mongotest_snr.api.user;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Predicate;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired) )
+//@RequiredArgsConstructor(onConstructor = @__(@Autowired) )
 public class UserServiceImpl implements UserService {
 
 	private final UserRepository userRepository;
 
+	public UserServiceImpl(UserRepository userRepository)
+	{
+		this.userRepository=userRepository;
+	}
 
 	@Override
 	public ResponseEntity<User> getCommentById(String id) {
