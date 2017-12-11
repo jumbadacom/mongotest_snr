@@ -1,4 +1,4 @@
-package com.jangle.mongotest_snr.mongotest_snr.api.user2;
+package com.jangle.mongotest_snr.mongotest_snr.api.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -15,28 +15,28 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 
-public class UserRepositoryImpl implements UserRepositoryCustom {
+public class TemplateUserRepositoryImpl implements TemplateUserRepositoryCustom {
 	
 	
     MongoOperations mongoOperations;
 	
 	@Autowired
-	public UserRepositoryImpl (MongoOperations mongoOperations) {
+	public TemplateUserRepositoryImpl (MongoOperations mongoOperations) {
 		this.mongoOperations = mongoOperations;
 	
 	}
 
 	
 	@Override
-	public void inserts(List<User> appUsers) {
-		BulkOperations bulkOperations = mongoOperations.bulkOps(BulkMode.UNORDERED, User.class);
-		for (User o : appUsers) {
+	public void inserts(List<TemplateUser> appUsers) {
+		BulkOperations bulkOperations = mongoOperations.bulkOps(BulkMode.UNORDERED, TemplateUser.class);
+		for (TemplateUser o : appUsers) {
 		    bulkOperations.insert(o);
 		}
 	}
 
 	@Override
-	public List<User> getAllUsers(Integer page, Integer size) {
+	public List<TemplateUser> getAllUsers(Integer page, Integer size) {
 		return null;
 	}
 	

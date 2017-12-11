@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping(value="api/users")
 @RestController
-public class UserController {
+public class TemplateUserController {
 	
-	private UserService userService;
+	private TemplateUserService userService;
 
-	public UserController(UserService userService)
+	public TemplateUserController(TemplateUserService userService)
 	{
 		this.userService=userService;
 	}
@@ -37,7 +37,7 @@ public class UserController {
 //	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<User> getUserById( @PathVariable String id )
+	public ResponseEntity<TemplateUser> getUserById( @PathVariable String id )
 	{
 		return userService.getUserById(id);
 
@@ -51,7 +51,7 @@ public class UserController {
 //	}
 	
 	@GetMapping(params= {"page","size"})
-	public ResponseEntity<List<User>> getUsers2(@RequestParam("page") Integer page, @RequestParam("size") Integer size)
+	public ResponseEntity<List<TemplateUser>> getUsers2(@RequestParam("page") Integer page, @RequestParam("size") Integer size)
 	{
 		
 		return userService.getAllUsers(page, size);

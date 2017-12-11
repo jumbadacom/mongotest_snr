@@ -11,21 +11,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class TemplateUserServiceImpl implements TemplateUserService{
 	
 	
 	
-	private UserRepository userRepository;
+	private TemplateUserRepository userRepository;
 	
-	public UserServiceImpl(UserRepository userRepository)
+	public TemplateUserServiceImpl(TemplateUserRepository userRepository)
 	{
 		this.userRepository=userRepository;
 	}
 
 
 	@Override
-	public ResponseEntity<User> getUserById(String id) {
-		Optional<User> user=userRepository.findById(id);
+	public ResponseEntity<TemplateUser> getUserById(String id) {
+		Optional<TemplateUser> user=userRepository.findById(id);
 		if(user.isPresent())
 		{
 			return ResponseEntity.ok(user.get());
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public ResponseEntity<List<User>> getAllUsers(Integer page, Integer size) {
+	public ResponseEntity<List<TemplateUser>> getAllUsers(Integer page, Integer size) {
 		
 		if(page<0 || size<1)
 		{
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService{
 		}
 		Pageable pageable=PageRequest.of(page, size, new Sort(Sort.Direction.ASC, "name"));
 //		Slice<User> users=userRepository.findAll(pageable);
-		Page<User> users=userRepository.findAll(pageable);
+		Page<TemplateUser> users=userRepository.findAll(pageable);
 		
 		return ResponseEntity.ok(users.getContent());
 		

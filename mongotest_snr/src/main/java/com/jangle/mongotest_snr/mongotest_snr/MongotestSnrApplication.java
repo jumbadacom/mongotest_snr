@@ -16,8 +16,8 @@ import com.jangle.mongotest_snr.mongotest_snr.api.comment.Comment;
 import com.jangle.mongotest_snr.mongotest_snr.api.comment.CommentRepository;
 import com.jangle.mongotest_snr.mongotest_snr.api.share.Share;
 import com.jangle.mongotest_snr.mongotest_snr.api.share.ShareRepository;
-import com.jangle.mongotest_snr.mongotest_snr.api.user2.User;
-import com.jangle.mongotest_snr.mongotest_snr.api.user2.UserRepository;
+import com.jangle.mongotest_snr.mongotest_snr.api.user2.TemplateUser;
+import com.jangle.mongotest_snr.mongotest_snr.api.user2.TemplateUserRepository;
 
 @SpringBootApplication
 public class MongotestSnrApplication {
@@ -31,7 +31,7 @@ public class MongotestSnrApplication {
 
 	/* Initializer */
 	@Bean
-	public CommandLineRunner init(UserRepository userRepository,ShareRepository shareRepository, CommentRepository commentRepository)
+	public CommandLineRunner init(TemplateUserRepository userRepository,ShareRepository shareRepository, CommentRepository commentRepository)
 	{
 		
 		 
@@ -39,16 +39,16 @@ public class MongotestSnrApplication {
 			
 //			List<User> users=userRepository.findByCityAndDistrict("city0","district=2");
 			
-			List<User> users=userRepository.findByCity(PageRequest.of(0, 3),"city0");
+			List<TemplateUser> users=userRepository.findByCity(PageRequest.of(0, 3),"city0");
 			
 			System.out.println("#############################################################################");
-			for(User u : users)
+			for(TemplateUser u : users)
 			{
 				System.out.println(u);
 			}
 			System.out.println("#############################################################################");
 			String email="hacihussam@gicikmail2.com";
-			Optional<User> sonuc=userRepository.findByEmail(email);
+			Optional<TemplateUser> sonuc=userRepository.findByEmail(email);
 			
 			if(sonuc.isPresent())
 			{
@@ -57,7 +57,7 @@ public class MongotestSnrApplication {
 			}
 			
 			DateTimeFormatter df=DateTimeFormatter.ofPattern("yyyyMMdd");
-			User u1=new User();
+			TemplateUser u1=new TemplateUser();
 			u1.setEmail(email);
 			u1.setBirthDate(LocalDate.parse("19760101", df).atStartOfDay());
 			u1.setIsActive(true);
