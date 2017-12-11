@@ -44,5 +44,18 @@ public class TemplateCommentServiceImpl implements TemplateCommentService {
 			return ResponseEntity.ok(comments);
 	}
 
+	@Override
+	public ResponseEntity<List<TemplateComment>> getCommentsByShareIdAndTopTenMostLikedAndNotDeletedAndContainsText(
+			String shareId, String text) {
+		Pageable pageable=PageRequest.of(0, 10, new Sort(Sort.Direction.DESC, "likeCount"));
+		List<TemplateComment> comments=templateCommentRepository.getCommentsByShareIdAndTopTenMostLikedAndNotDeletedAndContainsText(pageable, shareId, text);
+		if (comments!=null && comments.isEmpty())
+			return ResponseEntity.notFound().build();
+		else
+			return ResponseEntity.ok(comments);
+	}
+
+	
+
 	
 }

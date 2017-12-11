@@ -34,6 +34,12 @@ public class TemplateCommentController {
 		return null;
 	}
 	
+	@GetMapping(params = { "shareId", "text" })
+	public ResponseEntity<List<TemplateComment>> getCommentsByShareIdAndTopTenMostLikedAndNotDeletedAndContainsText(@RequestParam("shareId") String shareId,@RequestParam("text") String text)
+	{
+		return templateCommentService.getCommentsByShareIdAndTopTenMostLikedAndNotDeletedAndContainsText(shareId, text);
+	}
+	
 	@GetMapping("/{commentUserId}/user")
 	public ResponseEntity<List<TemplateComment>> getCommentByCommentUserId(@PathVariable String commentUserId) {
 		return templateCommentService.getCommentByCommentUserId(commentUserId);

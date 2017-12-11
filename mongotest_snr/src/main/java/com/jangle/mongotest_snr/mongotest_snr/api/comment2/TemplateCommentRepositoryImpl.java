@@ -19,14 +19,6 @@ public class TemplateCommentRepositoryImpl implements TemplateCommentRepositoryC
 		this.mongoOperations =mongoOperations;}
 
 	
-	
-	
-//	@Override
-//	public List<TemplateComment> findAllTemplateComments(Integer page, Integer size) {
-//		
-//		return null;
-//	}
-
 	@Override
 	public TemplateComment findTemplateCommentById(String id) {
 		
@@ -37,15 +29,24 @@ public class TemplateCommentRepositoryImpl implements TemplateCommentRepositoryC
 
 	@Override
 	public List<TemplateComment> getCommentByCommentUserId(Pageable pageable, String id) {
-Query query=new Query();
-		
+		Query query=new Query();
 		query.addCriteria(Criteria.where("commentUserId").is(id));
-//		query.limit(pageable.getPageNumber()*pageable.getPageSize());
-//		query.with(pageable.getSort());
 		query.with(pageable);
 		return mongoOperations.find(query, TemplateComment.class);
-		
 	}
+
+
+
+
+	@Override
+	public List<TemplateComment> getCommentsByShareIdAndTopTenMostLikedAndNotDeletedAndContainsText(Pageable pageable , String shareId, String text) {
+		Query query=new Query();
+		query.addCriteria(Criteria.where("sharedId").is(shareId).andOperator(Criteria.where("isDeleted").is(false).andOperator(Criteria.where("text").regex(".*"+text+".*"))));
+		query.with(pageable);
+		return mongoOperations.find(query, TemplateComment.class);
+	}
+	
+	
 
 
 

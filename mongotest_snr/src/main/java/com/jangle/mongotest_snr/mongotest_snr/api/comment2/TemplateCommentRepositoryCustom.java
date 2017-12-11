@@ -6,14 +6,12 @@ import org.springframework.data.domain.Pageable;
 
 public interface TemplateCommentRepositoryCustom {
 	
-//	public void inserts(List<TemplateComment> appComments);
-
-	
-//	public List<TemplateComment> findAllTemplateComments(Integer page, Integer size);
-	
 	public TemplateComment findTemplateCommentById(String id);
 	
 	public List<TemplateComment> getCommentByCommentUserId(Pageable pageable,String id);
+	
+	public List<TemplateComment> getCommentsByShareIdAndTopTenMostLikedAndNotDeletedAndContainsText(Pageable pageable, String shareId,String text);
+	
 	
 	
 
