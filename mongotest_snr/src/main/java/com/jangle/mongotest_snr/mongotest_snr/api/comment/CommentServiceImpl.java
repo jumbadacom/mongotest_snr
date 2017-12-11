@@ -3,6 +3,9 @@ package com.jangle.mongotest_snr.mongotest_snr.api.comment;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -76,6 +79,16 @@ public class CommentServiceImpl implements CommentService {
 		} else {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
+		
+	}
+
+
+	@Override
+	public ResponseEntity<List<Comment>> getCommentByCommentUserId(String id) {
+		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "likeCount"));
+		List<Comment> comments = commentRepository.getCommentByCommentUserId(pageable,id);
+		
+		return ResponseEntity.ok(comments);
 		
 	}
 

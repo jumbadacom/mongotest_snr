@@ -13,11 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/*
- * @Controller - bean
- * @Service - service
- * @Repository - dao
- */
 
 @RequestMapping(value = "api/comments")
 @RestController
@@ -37,11 +32,18 @@ public class CommentController {
 		return commentService.getCommentById(id);
 
 	}
+	
+	@GetMapping("/{commentUserId}/user")
+	public ResponseEntity<List<Comment>> getCommentByCommentUserId(@PathVariable String commentUserId) {
+		return commentService.getCommentByCommentUserId(commentUserId);
+
+	}
 
 	@GetMapping(params = { "page", "size" })
 	public ResponseEntity<List<Comment>> getComments2(@RequestParam("page") Integer page,
 			@RequestParam("size") Integer size) {
 
+//		return commentService.getCommentById(id);
 		return null;
 	}
 

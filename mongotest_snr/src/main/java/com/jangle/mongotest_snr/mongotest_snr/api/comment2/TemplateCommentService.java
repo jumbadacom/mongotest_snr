@@ -9,4 +9,8 @@ public interface TemplateCommentService  {
 	public ResponseEntity<TemplateComment> getTemplateCommentById(String id);
 	
 	public ResponseEntity<List<TemplateComment>> getAllTemplateComment(Integer page, Integer size);
+	
+	public ResponseEntity<List<TemplateComment>> getCommentByCommentUserId(String commentUserId);
+	
+	
 }

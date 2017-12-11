@@ -10,11 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/*
- * @Controller - bean
- * @Service - service
- * @Repository - dao
- */
 
 @RequestMapping(value = "api/templatecomments")
 @RestController
@@ -37,6 +32,12 @@ public class TemplateCommentController {
 			@RequestParam("size") Integer size) {
 
 		return null;
+	}
+	
+	@GetMapping("/{commentUserId}/user")
+	public ResponseEntity<List<TemplateComment>> getCommentByCommentUserId(@PathVariable String commentUserId) {
+		return templateCommentService.getCommentByCommentUserId(commentUserId);
+
 	}
 
 }

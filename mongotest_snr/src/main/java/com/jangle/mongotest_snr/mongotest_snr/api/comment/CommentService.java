@@ -15,4 +15,9 @@ public interface CommentService  {
 	public ResponseEntity<Void> delete(String id);
 	
 	public ResponseEntity<Void> update(String id,Comment comment);
+	
+	
+	public ResponseEntity<List<Comment>> getCommentByCommentUserId(String id);
+	
+	
 }
