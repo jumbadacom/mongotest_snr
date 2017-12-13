@@ -1,8 +1,10 @@
 package com.jangle.mongotest_snr.mongotest_snr.api.user;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -34,35 +36,67 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 		{
 			return null;
 		}
-//		Query query=new Query();
-//		query.addCriteria(Criteria.where("userId").is(user.getUserName()).andOperator(Criteria.where("passive").is(false)));
-//		query.with(pageable);
-//		return mongoOperations.find(query, User.class);
-		return null;
-	}
-
-	@Override
-	public void logout(User user) {
-		// TODO Auto-generated method stub
+		Query query=new Query();
+		query.addCriteria(Criteria.where("passive").is(false).andOperator(Criteria.where("password").is(user.getPassword()).andOperator(Criteria.where("userName").is(user.getUserName()))));
+		 User tempUser=mongoOperations.findOne(query, User.class);
+		 tempUser.setLastLogin(LocalDateTime.now());
+		 mongoOperations.save(tempUser);
+		 return tempUser;
 		
 	}
 
 	@Override
-	public List<User> getFriends(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public void logout(User user) { 
+		if(user==null || user.getUserName()==null || user.getPassword()==null)
+		{
+			return;
+		}
+		Query query=new Query();
+		query.addCriteria(Criteria.where("passive").is(false).andOperator(Criteria.where("password").is(user.getPassword()).andOperator(Criteria.where("userName").is(user.getUserName()))));
+		 User tempUser=mongoOperations.findOne(query, User.class);
+		 tempUser.setLastLogout(LocalDateTime.now());
+		 mongoOperations.save(tempUser);
+		 return ;
+		
 	}
 
-	@Override
-	public List<User> getFollowedUsers(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
-	public List<User> getFollowerUsers(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> getFriends(Pageable pageable, String userId) {
+		User user=mongoOperations.findById(userId, User.class);
+		if(user==null)
+		{
+			return null;
+		}
+		
+		Query query=new Query();
+		query.addCriteria(Criteria.where("passive").is(false).andOperator(Criteria.where("_Id").in(user.getFriendUserId())));
+		query.with(pageable);
+		return mongoOperations.find(query, User.class);
+	}
+
+
+	@Override
+	public List<User> getFollowedUsers(Pageable pageable, String userId) {
+		User user=mongoOperations.findById(userId, User.class);
+		if(user==null)
+		{
+			return null;
+		}
+		
+		Query query=new Query();
+		query.addCriteria(Criteria.where("passive").is(false).andOperator(Criteria.where("_Id").in(user.getFollowedUserId())));
+		query.with(pageable);
+		return mongoOperations.find(query, User.class);
+	}
+
+
+	@Override
+	public List<User> getFollowerUsers(Pageable pageable, String userId) {
+		Query query=new Query();
+		query.addCriteria(Criteria.where("passive").is(false).andOperator(Criteria.where("followedUserId").is(userId)));
+		query.with(pageable);
+		return mongoOperations.find(query, User.class);
 	}
 
 	
