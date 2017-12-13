@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ResponseEntity<User> getCommentById(String id) {
+	public ResponseEntity<User> getById(String id) {
 		Optional<User> optUser = userRepository.findById(id);
 		if (!optUser.isPresent())
 			return ResponseEntity.notFound().build();
@@ -27,11 +27,6 @@ public class UserServiceImpl implements UserService {
 			return ResponseEntity.ok(optUser.get());
 	}
 
-	@Override
-	public ResponseEntity<List<User>> getAllComments(Integer page, Integer size){
-		 
-		return null;
-	}
 
 	@Override
 	public ResponseEntity<Void> save(User user) {
@@ -68,6 +63,42 @@ public class UserServiceImpl implements UserService {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 		
+	}
+
+	@Override
+	public ResponseEntity<Void> insert(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<User> login(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<Void> logout(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<List<User>> getFriends(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<List<User>> getFollowedUsers(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<List<User>> getFollowerUsers(User user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

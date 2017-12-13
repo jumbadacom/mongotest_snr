@@ -6,13 +6,25 @@ import org.springframework.http.ResponseEntity;
 
 public interface UserService  {
 	
-	public ResponseEntity<User> getCommentById(String id);
+	public ResponseEntity<Void> insert(User user);
 	
-	public ResponseEntity<List<User>> getAllComments(Integer page, Integer size);
-	
-	public ResponseEntity<Void> save(User comment);
+	public ResponseEntity<Void> save(User user);
 	
 	public ResponseEntity<Void> delete(String id);
 	
-	public ResponseEntity<Void> update(String id,User comment);
+	public ResponseEntity<User> getById(String id);
+	
+	public ResponseEntity<Void> update(String id,User user);
+	
+	public ResponseEntity<User> login(User user);
+	
+	public ResponseEntity<Void> logout(User user);
+	
+	public ResponseEntity<List<User>> getFriends(User user);
+	
+	public ResponseEntity<List<User>> getFollowedUsers(User user);
+	
+	public ResponseEntity<List<User>> getFollowerUsers(User user);
+	
+	
 }

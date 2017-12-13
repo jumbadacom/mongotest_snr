@@ -34,7 +34,7 @@ public class UserController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getCommentById(@PathVariable String id) {
-		return userService.getCommentById(id);
+		return userService.getById(id);
 
 	}
 

@@ -8,9 +8,9 @@ public interface JangleRepositoryCustom {
 
 	public List<Jangle> getByUserId(Pageable pageable, String userId); 
 
-	public List<Jangle> getByMostLikedAndUserId(Pageable pageable, String userId);
+	public List<Jangle> getByMostLikedAndUserId(String userId);
 
-	public List<Jangle> getByMostSharedAndUserId(Pageable pageable, String userId);
+	public List<Jangle> getByMostSharedAndUserId(String userId);
 
 	public List<Jangle> getByTypeAndUserId(Pageable pageable, Type type, String userId);
 
@@ -20,8 +20,8 @@ public interface JangleRepositoryCustom {
 
 	public List<Jangle> getByRecentlyAndIncludeHided(Pageable pageable, String userId);
 
-	public List<Jangle> getByTagAndRecentlyAndIncludeHided(Pageable pageable, String userId);
+	public List<Jangle> getByTagAndRecentlyAndIncludeHided(Pageable pageable, String userId, List<String> tags);
 
-	public List<Jangle> getByTagAndRecently(Pageable pageable, String userId);
+	public List<Jangle> getByTagAndRecently(Pageable pageable, String userId, List<String> tags);
 
 }

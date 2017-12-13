@@ -88,8 +88,8 @@ public class JangleServiceImpl implements JangleService {
 
 	@Override
 	public ResponseEntity<List<Jangle>> getByMostLikedAndUserId( String userId) {
-		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
-		List<Jangle> jangleList = jangleRepository.getByMostLikedAndUserId(pageable, userId);
+		
+		List<Jangle> jangleList = jangleRepository.getByMostLikedAndUserId(userId);
 		if (jangleList != null && !jangleList.isEmpty())
 			return ResponseEntity.ok(jangleList);
 		else
@@ -98,8 +98,8 @@ public class JangleServiceImpl implements JangleService {
 
 	@Override
 	public ResponseEntity<List<Jangle>> getByMostSharedAndUserId( String userId) {
-		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
-		List<Jangle> jangleList = jangleRepository.getByMostSharedAndUserId(pageable, userId);
+		
+		List<Jangle> jangleList = jangleRepository.getByMostSharedAndUserId( userId);
 		if (jangleList != null && !jangleList.isEmpty())
 			return ResponseEntity.ok(jangleList);
 		else
@@ -147,9 +147,9 @@ public class JangleServiceImpl implements JangleService {
 	}
 
 	@Override
-	public ResponseEntity<List<Jangle>> getByTagAndRecentlyAndIncludeHided( String userId) {
+	public ResponseEntity<List<Jangle>> getByTagAndRecentlyAndIncludeHided( String userId, List<String> tags) {
 		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
-		List<Jangle> jangleList = jangleRepository.getByTagAndRecentlyAndIncludeHided(pageable, userId);
+		List<Jangle> jangleList = jangleRepository.getByTagAndRecentlyAndIncludeHided(pageable, userId, tags);
 		if (jangleList != null && !jangleList.isEmpty())
 			return ResponseEntity.ok(jangleList);
 		else
@@ -157,9 +157,9 @@ public class JangleServiceImpl implements JangleService {
 	}
 
 	@Override
-	public ResponseEntity<List<Jangle>> getByTagAndRecently( String userId) {
+	public ResponseEntity<List<Jangle>> getByTagAndRecently( String userId, List<String> tags) {
 		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
-		List<Jangle> jangleList = jangleRepository.getByTagAndRecently(pageable, userId);
+		List<Jangle> jangleList = jangleRepository.getByTagAndRecently(pageable, userId,tags);
 		if (jangleList != null && !jangleList.isEmpty())
 			return ResponseEntity.ok(jangleList);
 		else

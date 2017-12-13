@@ -34,7 +34,7 @@ public class User {
 	private String userName;
 	
 	@JsonProperty
-	private String sifre;
+	private String password;
 	
 	@Indexed(unique=false,background=true,sparse=true,direction=IndexDirection.ASCENDING)
 	@JsonProperty
@@ -91,6 +91,8 @@ public class User {
 	@Indexed(unique=false,background=true,sparse=true,direction=IndexDirection.DESCENDING)
 	@JsonProperty
 	private List<String> followedUserId=new ArrayList<>();
+	
+	
 	
 
 	
