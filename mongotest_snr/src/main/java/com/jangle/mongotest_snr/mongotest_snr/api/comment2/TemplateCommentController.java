@@ -43,7 +43,6 @@ public class TemplateCommentController {
 	@GetMapping("/{commentUserId}/user")
 	public ResponseEntity<List<TemplateComment>> getCommentByCommentUserId(@PathVariable String commentUserId) {
 		return templateCommentService.getCommentByCommentUserId(commentUserId);
-
 	}
 
 }
