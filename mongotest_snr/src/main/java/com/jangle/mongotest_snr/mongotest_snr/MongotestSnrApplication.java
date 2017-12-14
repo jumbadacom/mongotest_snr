@@ -43,8 +43,9 @@ public class MongotestSnrApplication {
 		String[] mailler = new String[] { "hotmail", "gmail", "outlook", "windowslive" };
 		return args -> {
 			StringBuilder sb;
-			try {
+			
 			for (int i = 0; i < 10000000; i++) {
+				try {
 				sb = new StringBuilder();
 				User user = new User();
 				int randomKelimeSayac = r.nextInt(9) + 1;
@@ -96,11 +97,12 @@ public class MongotestSnrApplication {
 				{
 					Thread.sleep(500);
 				}
+				}catch(Exception e)
+				{
+					Thread.sleep(30000);
+				}
 			}
-			}catch(Exception e)
-			{
-				Thread.sleep(10000);
-			}
+			
 		};
 		
 	}
