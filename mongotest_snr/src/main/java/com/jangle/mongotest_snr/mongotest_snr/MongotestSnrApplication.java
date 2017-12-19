@@ -50,7 +50,7 @@ public class MongotestSnrApplication {
 		Pageable pageable = PageRequest.of(0, 1000000, new Sort(Sort.Direction.DESC, "id"));
 		Slice<User> slice = userRepository.findAll(pageable);
 		followers = slice.getContent();
-
+       
 		return args -> {
 			StringBuilder sb = null;
 			List<Jangle> jangleList=new ArrayList<>();
