@@ -89,9 +89,18 @@ public class User {
 	@JsonProperty
 	private List<ObjectId> friendUserId=new ArrayList<>();
 	
+	@JsonProperty
+	private Integer friendUserCount;
+	
 	@Indexed(unique=false,background=true,sparse=true,direction=IndexDirection.DESCENDING)
 	@JsonProperty
 	private List<ObjectId> followedUserId=new ArrayList<>();
+	
+	@JsonProperty
+	private Integer followedUserCount;
+	
+	@JsonProperty
+	private Integer followerUserCount;
 	
 	
 	

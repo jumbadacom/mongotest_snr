@@ -1,6 +1,9 @@
 package com.jangle.mongotest_snr.mongotest_snr;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -26,16 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MongotestSnrApplication {
 
-	private static List<User> followers;
-	private static Integer kaldigiyer = null;
-
 	public static void main(String[] args) {
-		// if(args!=null && args.length>0)
-		// {
-		// kaldigiyer=Integer.parseInt(args[0]);
-		// JOptionPane.showMessageDialog(null, "Kaldığı Yerden Devam
-		// Ediyor"+kaldigiyer);
-		// }
 		SpringApplication.run(MongotestSnrApplication.class, args);
 
 	}
@@ -49,45 +43,88 @@ public class MongotestSnrApplication {
 
 //		Pageable pageable = PageRequest.of(0, 1000000, new Sort(Sort.Direction.DESC, "id"));
 //		Slice<User> slice = userRepository.findAll(pageable);
-//		followers = slice.getContent();
+//		kullanicilar = slice.getContent();
 		
-		
-		
-		
-       //Jangle Update
-		return args -> {
 			
-			int page=0;
-		while(true)
-		{	
-			Pageable pageable = PageRequest.of(page, 100000, new Sort(Sort.Direction.ASC, "id"));
-			List<Jangle> jangles = jangleRepository.findAll(pageable).getContent();
-			if(jangles==null || jangles.isEmpty())
-			{
-				break;
-			}
-			
-			for(Jangle jangle : jangles)
-			{
-				jangle.setLikeCount(jangle.getLikeUserId().size());
-				jangle.setHideCount(jangle.getHideUserId().size());
-				jangle.setShareCount(jangle.getSharedUserId().size());
-				jangle.setViewCount(r.nextInt(100000));
-			}
-			
-			jangleRepository.saveAll(jangles);
-			
-			page++;
-			
-			System.out.println(jangles.size()+" jangle güncellendi. Sayfa:"+pageable.getPageNumber());
-			
-		};
-		};
-		
-		//Jangle Generator
-		/*
 		return args -> {
 			StringBuilder sb = null;
+			List<User> kullanicilar= new ArrayList<>();
+			List<User> followers= new ArrayList<>();
+			for (int i = 0; i < 3000000 ; i++) {
+				try {
+					
+				sb = new StringBuilder();
+				User user = new User();
+				int randomKelimeSayac = r.nextInt(9) + 1;
+				while (randomKelimeSayac > 0) {
+					sb.append(kelimeler[r.nextInt(kelimeler.length - 1)]).append(" ");
+					randomKelimeSayac--;
+				}
+				user.setAddress(sb.toString());
+				user.setBirtdate(LocalDateTime.of(r.nextInt(30) + 1980, (r.nextInt(11)+1), r.nextInt(25)+1, 1, 1));
+				user.setEmail("email_" + i + "@" + mailler[r.nextInt(mailler.length - 1)] + ".com");
+				user.setEmailVerified((r.nextInt(100) >5));
+				
+				if ( i>100000 && r.nextInt(10) > 4) {
+					List<ObjectId> userfolowers = new ArrayList<ObjectId>();
+					int fCounter = r.nextInt(followers.size() - 1);
+					while (r.nextInt(10) > 4 && fCounter < followers.size() - 1) {
+						userfolowers.add(followers.get(fCounter).getId());
+						fCounter++;
+					}
+					user.setFollowedUserId(userfolowers);
+				}
+
+				
+				
+				if (i>=100000 && r.nextInt(10) > 4)
+				{
+					List<ObjectId> userfriends = new ArrayList<>();
+					int fCounter =r.nextInt(followers.size() - 1);
+					while (i>100000 && r.nextInt(10) > 4 ) {
+						ObjectId f = followers.get(r.nextInt(followers.size())).getId();
+						if(f!=null)
+							userfriends.add(f);
+						
+						fCounter++;
+					}
+					user.setFriendUserId(userfriends);
+					user.setFriendUserCount(userfriends.size());
+				}
+
+				user.setName(kelimeler[r.nextInt(kelimeler.length - 1)]);
+				user.setPassive(r.nextInt(100) == 0);
+				user.setPassword(kelimeler[r.nextInt(kelimeler.length - 1)]);
+				user.setRegisteredTime(LocalDateTime.now());
+				user.setLastLogin(LocalDateTime.now());
+				user.setUserName("username" + i);
+				user.setFollowerUserCount(r.nextInt(1000));
+				kullanicilar.add(user);
+				
+				if(kullanicilar.size()>=100000)
+				{
+					userRepository.saveAll(kullanicilar);
+					
+					
+					if(followers!=null && followers.isEmpty())
+					{
+						followers.addAll(kullanicilar);
+					}
+					kullanicilar=new ArrayList<>();
+				}
+				
+				
+				}catch(Exception e)
+				{
+					System.out.println(e.toString());
+					e.printStackTrace();
+					Thread.sleep(10000);
+					
+				}
+			}
+			
+			kullanicilar = userRepository.saveAll(kullanicilar);
+			
 			List<Jangle> jangleList=new ArrayList<>();
 			for (int i = 0; i < 25000000; i++) {
 				try {
@@ -135,6 +172,14 @@ public class MongotestSnrApplication {
 					}
 					
 					jangle.setUserId(followers.get(r.nextInt(followers.size())).getId());
+					jangle.setLikeCount(jangle.getLikeUserId().size());
+					jangle.setHideCount(jangle.getHideUserId().size());
+					jangle.setShareCount(jangle.getSharedUserId().size());
+					jangle.setViewCount(r.nextInt(123456));
+					
+					Calendar takvim=Calendar.getInstance();
+					takvim.add(Calendar.DAY_OF_MONTH, r.nextInt(900)*-1);
+					jangle.setRegisteredTime(LocalDateTime.ofInstant(takvim.toInstant(), ZoneId.systemDefault()));
 					jangleList.add(jangle);
 					
 					if(jangleList.size()%100000==0)
@@ -156,97 +201,7 @@ public class MongotestSnrApplication {
 			System.out.println("İşlem Bitti");
 
 		};
-		*/
-
-		/* User Generating */
-		/*return args -> {
-			int kaldigiyer= 0 ;
-			if(MongotestSnrApplication.kaldigiyer!=null)
-			{kaldigiyer=MongotestSnrApplication.kaldigiyer;}
-			else
-			{kaldigiyer=1900000;}
-			kaldigiyer=kaldigiyer+369; //Düzeltme
-			
-			StringBuilder sb=null;
-			
-			List<User> kullanicilar= new ArrayList<>();
-			for (int i = kaldigiyer; i < 3000000 ; i++) {
-				try {
-					
-				sb = new StringBuilder();
-				User user = new User();
-				int randomKelimeSayac = r.nextInt(9) + 1;
-				while (randomKelimeSayac > 0) {
-					sb.append(kelimeler[r.nextInt(kelimeler.length - 1)]).append(" ");
-					randomKelimeSayac--;
-				}
-				user.setAddress(sb.toString());
-				user.setBirtdate(LocalDateTime.of(r.nextInt(30) + 1980, (r.nextInt(11)+1), r.nextInt(25)+1, 1, 1));
-				user.setEmail("email_" + i + "@" + mailler[r.nextInt(mailler.length - 1)] + ".com");
-				user.setEmailVerified((r.nextInt(100) >5));
-				
-				if (r.nextInt(10) > 4 && i>followers.size()+kaldigiyer) {
-					List<ObjectId> folowers = new ArrayList<ObjectId>();
-					int fCounter = r.nextInt(followers.size() - 1);
-					while (r.nextInt(10) > 4 && fCounter < followers.size() - 1) {
-						folowers.add(followers.get(fCounter).getId());
-						fCounter++;
-					}
-					user.setFollowedUserId(folowers);
-				}
-
-//				if (i < (followers.length+kaldigiyer)) {
-//					followers[(i-kaldigiyer)] = user.getId();
-//				} else if (r.nextInt(10) > 4 && i >= (1000+kaldigiyer)) {
-				if (r.nextInt(10) > 4)
-				{
-					List<ObjectId> folowers = new ArrayList<>();
-					int fCounter = r.nextInt(followers.size() - 1);
-//					while (r.nextInt(10) > 4 && fCounter < followers.size() - 1) {
-					while (r.nextInt(10) > 4 ) {
-						ObjectId f = followers.get(r.nextInt(followers.size())).getId();
-						if(f!=null)
-						folowers.add(f);
-						
-						fCounter++;
-					}
-					user.setFriendUserId(folowers);
-				}
-
-				user.setName(kelimeler[r.nextInt(kelimeler.length - 1)]);
-				user.setPassive(r.nextInt(100) == 0);
-				user.setPassword(kelimeler[r.nextInt(kelimeler.length - 1)]);
-				user.setRegisteredTime(LocalDateTime.now());
-				user.setLastLogin(LocalDateTime.now());
-				user.setUserName("username" + i);
-				kullanicilar.add(user);
-				
-				
-//				if (user != null && user.getId() != null) {
-//				
-//					if (i < (followers.length+kaldigiyer)) {
-//						followers[(i-kaldigiyer)]=user.getId();
-//					}
-//					else if(i >  (followers.length+kaldigiyer) && r.nextInt(100)>60)
-//					{
-//						followers[r.nextInt(followers.length-1)]=user.getId();
-//					}
-//				}
-				
-				
-				}catch(Exception e)
-				{
-					System.out.println(e.toString());
-					e.printStackTrace();
-					Thread.sleep(10000);
-					
-				}
-			}
-			
-			followers = userRepository.saveAll(kullanicilar);
-			System.out.println(followers.size());
-		};
-		*/
+		
 
 	}
 
