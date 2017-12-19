@@ -1,4 +1,4 @@
-package com.jangle.mongotest_snr.mongotest_snr.api.jangle;
+package com.jangle.mongotest_snr.mongotest_snr.api.tail;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,17 +13,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 // @RequiredArgsConstructor(onConstructor = @__(@Autowired) )
-public class JangleServiceImpl implements JangleService {
+public class TailServiceImpl implements TailService {
 
-	private final JangleRepository jangleRepository;
+	private final TailRepository jangleRepository;
 
-	public JangleServiceImpl(JangleRepository jangleRepository) {
+	public TailServiceImpl(TailRepository jangleRepository) {
 		this.jangleRepository = jangleRepository;
 	}
 
 	@Override
-	public ResponseEntity<Jangle> getById(String id) {
-		Optional<Jangle> optUser = jangleRepository.findById(id);
+	public ResponseEntity<Tail> getById(String id) {
+		Optional<Tail> optUser = jangleRepository.findById(id);
 		if (!optUser.isPresent())
 			return ResponseEntity.notFound().build();
 		else
@@ -31,8 +31,8 @@ public class JangleServiceImpl implements JangleService {
 	}
 
 	@Override
-	public ResponseEntity<Void> save(Jangle comment) {
-		Jangle sonuc = jangleRepository.insert(comment);
+	public ResponseEntity<Void> save(Tail comment) {
+		Tail sonuc = jangleRepository.insert(comment);
 		if (sonuc != null) {
 			return ResponseEntity.created(null).build();
 		} else {
@@ -42,12 +42,12 @@ public class JangleServiceImpl implements JangleService {
 
 	@Override
 	public ResponseEntity<Void> delete(String id) {
-		Optional<Jangle> optUser = jangleRepository.findById(id);
+		Optional<Tail> optUser = jangleRepository.findById(id);
 		if (!optUser.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 
-		Jangle temp = optUser.get();
+		Tail temp = optUser.get();
 		temp.setPassive(true);
 		temp = jangleRepository.save(temp);
 
@@ -59,13 +59,13 @@ public class JangleServiceImpl implements JangleService {
 	}
 
 	@Override
-	public ResponseEntity<Void> update(String id, Jangle comment) {
-		Optional<Jangle> optUser = jangleRepository.findById(id);
+	public ResponseEntity<Void> update(String id, Tail comment) {
+		Optional<Tail> optUser = jangleRepository.findById(id);
 		if (!optUser.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
 
-		Jangle temp = optUser.get();
+		Tail temp = optUser.get();
 		comment.setId(new ObjectId(id));
 		temp = jangleRepository.save(comment);
 
@@ -77,9 +77,9 @@ public class JangleServiceImpl implements JangleService {
 	}
 
 	@Override
-	public ResponseEntity<List<Jangle>> getByUserId( String userId) {
+	public ResponseEntity<List<Tail>> getByUserId( String userId) {
 		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
-		List<Jangle> jangleList = jangleRepository.getByUserId(pageable, userId);
+		List<Tail> jangleList = jangleRepository.getByUserId(pageable, userId);
 		if (jangleList != null && !jangleList.isEmpty())
 			return ResponseEntity.ok(jangleList);
 		else
@@ -87,9 +87,9 @@ public class JangleServiceImpl implements JangleService {
 	}
 
 	@Override
-	public ResponseEntity<List<Jangle>> getByMostLikedAndUserId( String userId) {
+	public ResponseEntity<List<Tail>> getByMostLikedAndUserId( String userId) {
 		
-		List<Jangle> jangleList = jangleRepository.getByMostLikedAndUserId(userId);
+		List<Tail> jangleList = jangleRepository.getByMostLikedAndUserId(userId);
 		if (jangleList != null && !jangleList.isEmpty())
 			return ResponseEntity.ok(jangleList);
 		else
@@ -97,9 +97,9 @@ public class JangleServiceImpl implements JangleService {
 	}
 
 	@Override
-	public ResponseEntity<List<Jangle>> getByMostSharedAndUserId( String userId) {
+	public ResponseEntity<List<Tail>> getByMostSharedAndUserId( String userId) {
 		
-		List<Jangle> jangleList = jangleRepository.getByMostSharedAndUserId( userId);
+		List<Tail> jangleList = jangleRepository.getByMostSharedAndUserId( userId);
 		if (jangleList != null && !jangleList.isEmpty())
 			return ResponseEntity.ok(jangleList);
 		else
@@ -107,9 +107,9 @@ public class JangleServiceImpl implements JangleService {
 	}
 
 	@Override
-	public ResponseEntity<List<Jangle>> getByTypeAndUserId( Type type, String userId) {
+	public ResponseEntity<List<Tail>> getByTypeAndUserId( Type type, String userId) {
 		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
-		List<Jangle> jangleList = jangleRepository.getByTypeAndUserId(pageable, type, userId);
+		List<Tail> jangleList = jangleRepository.getByTypeAndUserId(pageable, type, userId);
 		if (jangleList != null && !jangleList.isEmpty())
 			return ResponseEntity.ok(jangleList);
 		else
@@ -117,9 +117,9 @@ public class JangleServiceImpl implements JangleService {
 	}
 
 	@Override
-	public ResponseEntity<List<Jangle>> getByTypeAndUserIdAndIncludePassive( Type type, String userId) {
+	public ResponseEntity<List<Tail>> getByTypeAndUserIdAndIncludeHided( Type type, String userId) {
 		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
-		List<Jangle> jangleList = jangleRepository.getByTypeAndUserIdAndIncludePassive(pageable, type, userId);
+		List<Tail> jangleList = jangleRepository.getByTypeAndUserIdAndIncludeHided(pageable, type, userId);
 		if (jangleList != null && !jangleList.isEmpty())
 			return ResponseEntity.ok(jangleList);
 		else
@@ -127,9 +127,9 @@ public class JangleServiceImpl implements JangleService {
 	}
 
 	@Override
-	public ResponseEntity<List<Jangle>> getByRecently( String userId) {
+	public ResponseEntity<List<Tail>> getByRecently( String userId) {
 		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
-		List<Jangle> jangleList = jangleRepository.getByRecently(pageable, userId);
+		List<Tail> jangleList = jangleRepository.getByRecently(pageable, userId);
 		if (jangleList != null && !jangleList.isEmpty())
 			return ResponseEntity.ok(jangleList);
 		else
@@ -137,9 +137,9 @@ public class JangleServiceImpl implements JangleService {
 	}
 
 	@Override
-	public ResponseEntity<List<Jangle>> getByRecentlyAndIncludePassive( String userId) {
+	public ResponseEntity<List<Tail>> getByRecentlyAndIncludeHided( String userId) {
 		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
-		List<Jangle> jangleList = jangleRepository.getByRecentlyAndIncludePassive(pageable, userId);
+		List<Tail> jangleList = jangleRepository.getByRecentlyAndIncludeHided(pageable, userId);
 		if (jangleList != null && !jangleList.isEmpty())
 			return ResponseEntity.ok(jangleList);
 		else
@@ -147,9 +147,9 @@ public class JangleServiceImpl implements JangleService {
 	}
 
 	@Override
-	public ResponseEntity<List<Jangle>> getByTagAndRecentlyAndIncludePassive( String userId, List<String> tags) {
+	public ResponseEntity<List<Tail>> getByTagAndRecentlyAndIncludeHided( String userId, List<String> tags) {
 		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
-		List<Jangle> jangleList = jangleRepository.getByTagAndRecentlyAndIncludePassive(pageable, userId, tags);
+		List<Tail> jangleList = jangleRepository.getByTagAndRecentlyAndIncludeHided(pageable, userId, tags);
 		if (jangleList != null && !jangleList.isEmpty())
 			return ResponseEntity.ok(jangleList);
 		else
@@ -157,9 +157,9 @@ public class JangleServiceImpl implements JangleService {
 	}
 
 	@Override
-	public ResponseEntity<List<Jangle>> getByTagAndRecently( String userId, List<String> tags) {
+	public ResponseEntity<List<Tail>> getByTagAndRecently( String userId, List<String> tags) {
 		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
-		List<Jangle> jangleList = jangleRepository.getByTagAndRecently(pageable, userId,tags);
+		List<Tail> jangleList = jangleRepository.getByTagAndRecently(pageable, userId,tags);
 		if (jangleList != null && !jangleList.isEmpty())
 			return ResponseEntity.ok(jangleList);
 		else

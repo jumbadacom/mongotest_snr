@@ -14,14 +14,17 @@ public interface JangleRepositoryCustom {
 
 	public List<Jangle> getByTypeAndUserId(Pageable pageable, Type type, String userId);
 
-	public List<Jangle> getByTypeAndUserIdAndIncludeHided(Pageable pageable, Type type, String userId);
+	public List<Jangle> getByTypeAndUserIdAndIncludePassive(Pageable pageable, Type type, String userId);
 
 	public List<Jangle> getByRecently(Pageable pageable, String userId);
 
-	public List<Jangle> getByRecentlyAndIncludeHided(Pageable pageable, String userId);
+	public List<Jangle> getByRecentlyAndIncludePassive(Pageable pageable, String userId);
 
-	public List<Jangle> getByTagAndRecentlyAndIncludeHided(Pageable pageable, String userId, List<String> tags);
+	public List<Jangle> getByTagAndRecentlyAndIncludePassive(Pageable pageable, String userId, List<String> tags);
 
 	public List<Jangle> getByTagAndRecently(Pageable pageable, String userId, List<String> tags);
+	
+	public List<Jangle> getByViewCountBetweenAndLikeCountBetween(Pageable pageable, int viewCountBiggerThan, int viewCountLessThan,int likeCountBiggerThan, int likeCountLessThan);
 
+	public List<Jangle> getByViewCountOverAndLikeCountOver(Pageable pageable, int viewCount, int likeCount);
 }

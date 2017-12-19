@@ -22,13 +22,13 @@ public interface JangleService  {
 	
 	public ResponseEntity<List<Jangle>> getByTypeAndUserId(Type type, String userId);
 	
-	public ResponseEntity<List<Jangle>> getByTypeAndUserIdAndIncludeHided(Type type, String userId);
+	public ResponseEntity<List<Jangle>> getByTypeAndUserIdAndIncludePassive(Type type, String userId);
 	
 	public ResponseEntity<List<Jangle>> getByRecently( String userId);
 	
-	public ResponseEntity<List<Jangle>> getByRecentlyAndIncludeHided( String userId);
+	public ResponseEntity<List<Jangle>> getByRecentlyAndIncludePassive( String userId);
 	
-	public ResponseEntity<List<Jangle>> getByTagAndRecentlyAndIncludeHided( String userId, List<String> tags);
+	public ResponseEntity<List<Jangle>> getByTagAndRecentlyAndIncludePassive( String userId, List<String> tags);
 	
 	public ResponseEntity<List<Jangle>> getByTagAndRecently( String userId, List<String> tags);
 }

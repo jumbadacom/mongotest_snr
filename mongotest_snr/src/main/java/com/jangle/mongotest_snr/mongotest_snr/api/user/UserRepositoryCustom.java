@@ -1,5 +1,6 @@
 package com.jangle.mongotest_snr.mongotest_snr.api.user;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
@@ -17,5 +18,9 @@ public interface UserRepositoryCustom {
 	public List<User> getFollowedUsers(Pageable pageable, String userId);
 
 	public List<User> getFollowerUsers(Pageable pageable, String userId);
+	
+	public List<User> getByJangleCountOverAndViewCountOverAndSinceDate(Pageable pageable, int jangleCount, int viewCount, Date date);
+	
+	
 
 }

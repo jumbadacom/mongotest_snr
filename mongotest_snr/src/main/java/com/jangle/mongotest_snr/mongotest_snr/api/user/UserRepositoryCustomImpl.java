@@ -1,6 +1,7 @@
 package com.jangle.mongotest_snr.mongotest_snr.api.user;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
@@ -100,6 +101,21 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 		query.addCriteria(Criteria.where("passive").is(false).andOperator(Criteria.where("followedUserId").is(userId)));
 		query.with(pageable);
 		return mongoOperations.find(query, User.class);
+	}
+
+
+	@Override
+	public List<User> getByJangleCountOverAndViewCountOverAndSinceDate(Pageable pageable, int jangleCount,
+			int viewCount, Date date) {
+//		
+//		
+//		
+//		Criteria cr=Criteria.where("passive").is(false).and("likeCount").gt(jangleCount).
+//		Query query=new Query();
+//		query.with(pageable);
+//		return mongoOperations.find(query, User.class);
+		
+		return null;
 	}
 
 	

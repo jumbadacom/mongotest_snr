@@ -1,4 +1,4 @@
-package com.jangle.mongotest_snr.mongotest_snr.api.jangle;
+package com.jangle.mongotest_snr.mongotest_snr.api.tail;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,9 +28,10 @@ import lombok.NoArgsConstructor;
 @Data
 @Document(collection="jangles")
 @CompoundIndexes({
-    @CompoundIndex(name = "user_type_registeredTime", def = "{'userId' : 1, 'type': 1 , 'registeredTime':1, 'tags':1}")
+    @CompoundIndex(name = "user_type_registeredTime", def = "{'userId' : 1, 'type': 1 , 'registeredTime':1, 'tags':1}"),
+    @CompoundIndex(name = "jangleId_type_registeredTime", def = "{'jangleId' : 1, 'type': 1 , 'registeredTime':1, 'tags':1}")
 })
-public class Jangle {
+public class Tail {
 	
 	@Id
 	private ObjectId id=null;
@@ -38,6 +39,10 @@ public class Jangle {
 	@Indexed(unique=false,background=true,sparse=true)
 	@NotNull
 	private ObjectId userId=null;
+	
+	@NotNull
+	@JsonProperty
+	private ObjectId jangleId =null;
 
 //	@Indexed(unique=false,background=true,sparse=true)
 	@JsonProperty
@@ -71,6 +76,8 @@ public class Jangle {
 	@NotNull
 	@JsonProperty
 	private Boolean passive = false;
+	
+	
 	
 	@JsonProperty
 	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")

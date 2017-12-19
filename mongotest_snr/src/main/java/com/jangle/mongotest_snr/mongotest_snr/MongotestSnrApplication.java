@@ -47,10 +47,45 @@ public class MongotestSnrApplication {
 		String[] kelimeler = parcalanacak.toLowerCase().split("[ ]");
 		String[] mailler = new String[] { "hotmail", "gmail", "outlook", "windowslive" };
 
-		Pageable pageable = PageRequest.of(0, 1000000, new Sort(Sort.Direction.DESC, "id"));
-		Slice<User> slice = userRepository.findAll(pageable);
-		followers = slice.getContent();
-       
+//		Pageable pageable = PageRequest.of(0, 1000000, new Sort(Sort.Direction.DESC, "id"));
+//		Slice<User> slice = userRepository.findAll(pageable);
+//		followers = slice.getContent();
+		
+		
+		
+		
+       //Jangle Update
+		return args -> {
+			
+			int page=0;
+		while(true)
+		{	
+			Pageable pageable = PageRequest.of(page, 100000, new Sort(Sort.Direction.ASC, "id"));
+			List<Jangle> jangles = jangleRepository.findAll(pageable).getContent();
+			if(jangles==null || jangles.isEmpty())
+			{
+				break;
+			}
+			
+			for(Jangle jangle : jangles)
+			{
+				jangle.setLikeCount(jangle.getLikeUserId().size());
+				jangle.setHideCount(jangle.getHideUserId().size());
+				jangle.setShareCount(jangle.getSharedUserId().size());
+				jangle.setViewCount(r.nextInt(100000));
+			}
+			
+			jangleRepository.saveAll(jangles);
+			
+			page++;
+			
+			System.out.println(jangles.size()+" jangle güncellendi. Sayfa:"+pageable.getPageNumber());
+			
+		};
+		};
+		
+		//Jangle Generator
+		/*
 		return args -> {
 			StringBuilder sb = null;
 			List<Jangle> jangleList=new ArrayList<>();
@@ -121,6 +156,7 @@ public class MongotestSnrApplication {
 			System.out.println("İşlem Bitti");
 
 		};
+		*/
 
 		/* User Generating */
 		/*return args -> {
