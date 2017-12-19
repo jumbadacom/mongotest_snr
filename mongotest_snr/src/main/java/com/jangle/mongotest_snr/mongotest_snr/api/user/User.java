@@ -7,6 +7,7 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -27,7 +28,7 @@ import lombok.NoArgsConstructor;
 public class User {
 	
 	@Id
-	private String id;
+	private ObjectId id;
 	
 	@Indexed(unique=true,background=true,sparse=true,direction=IndexDirection.ASCENDING)
 	@Size(min=4,max=255)
@@ -86,11 +87,11 @@ public class User {
 	
 	@Indexed(unique=false,background=true,sparse=true,direction=IndexDirection.DESCENDING)
 	@JsonProperty
-	private List<String> friendUserId=new ArrayList<>();
+	private List<ObjectId> friendUserId=new ArrayList<>();
 	
 	@Indexed(unique=false,background=true,sparse=true,direction=IndexDirection.DESCENDING)
 	@JsonProperty
-	private List<String> followedUserId=new ArrayList<>();
+	private List<ObjectId> followedUserId=new ArrayList<>();
 	
 	
 	

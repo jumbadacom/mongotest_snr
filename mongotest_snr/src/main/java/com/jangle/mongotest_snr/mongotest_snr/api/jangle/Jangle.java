@@ -7,13 +7,17 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,27 +27,30 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Document(collection="jangles")
+@CompoundIndexes({
+    @CompoundIndex(name = "user_type_registeredTime", def = "{'userId' : 1, 'type': 1 , 'registeredTime':1, 'tags':1}")
+})
 public class Jangle {
 	
 	@Id
-	private String id=null;
+	private ObjectId id=null;
 	
 	@Indexed(unique=false,background=true,sparse=true)
 	@NotNull
-	private String userId=null;
+	private ObjectId userId=null;
 
-	@Indexed(unique=false,background=true,sparse=true)
+//	@Indexed(unique=false,background=true,sparse=true)
 	@JsonProperty
 	private Type type=null;
 	
 	@JsonProperty
-	private List<String> likeUserId = new ArrayList<>();
+	private List<ObjectId> likeUserId = new ArrayList<>();
 	
 	@JsonProperty
-	private List<String> hideUserId = new ArrayList<>();
+	private List<ObjectId> hideUserId = new ArrayList<>();
 	
 	@JsonProperty
-	private List<String> sharedUserId = new ArrayList<>();
+	private List<ObjectId> sharedUserId = new ArrayList<>();
 	
 	@NotNull
 	@JsonProperty
@@ -60,6 +67,6 @@ public class Jangle {
 	private LocalDateTime updatedTime=null;
 	
 	@JsonProperty
-	@Size(min=1,max=128)
+	@Size(min=1,max=255)
 	private List<String> tags = new ArrayList<>();
 }

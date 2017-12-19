@@ -17,29 +17,26 @@ import com.mongodb.BasicDBObject;
 //@Slf4j
 public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 	
-	
     MongoOperations mongoOperations;
 	
 	@Autowired
 	public JangleRepositoryCustomImpl (MongoOperations mongoOperations) {
 		this.mongoOperations = mongoOperations;
-	
 	}
 
 	@Override
 	public List<Jangle> getByUserId(Pageable pageable, String userId) {
 		Query query=new Query();
-		query.addCriteria(Criteria.where("userId").is(userId).andOperator(Criteria.where("passive").is(false)));
+		query.addCriteria(Criteria.where("userId").is(userId).and("passive").is(false));
 		query.with(pageable);
 		return mongoOperations.find(query, Jangle.class);
-
 	}
 
 	@Override
 	public List<Jangle> getByMostLikedAndUserId(String userId) {
 		Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.project().and("likeUserId").project("size").as("count"),
-                Aggregation.match(Criteria.where("passive").is(false).andOperator(Criteria.where("userId").is(userId))),
+                Aggregation.match(Criteria.where("passive").is(false).and("userId").is(userId)),
                 Aggregation.sort(new Sort(Sort.Direction.DESC, "count")),
                 Aggregation.limit(10)
 				);
@@ -47,7 +44,7 @@ public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 		List<BasicDBObject> jangleIds = mongoOperations.aggregate(aggregation, "jangle", BasicDBObject.class).getMappedResults();
 
 		Query query=new Query();
-		query.addCriteria(Criteria.where("userId").is(userId).andOperator(Criteria.where("id").in(jangleIds)));
+		query.addCriteria(Criteria.where("userId").is(userId).and("id").in(jangleIds));
 		return mongoOperations.find(query, Jangle.class);
 	}
 
@@ -55,7 +52,7 @@ public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 	public List<Jangle> getByMostSharedAndUserId(String userId) {
 		Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.project().and("sharedUserId").project("size").as("count"),
-                Aggregation.match(Criteria.where("passive").is(false).andOperator(Criteria.where("userId").is(userId))),
+                Aggregation.match(Criteria.where("passive").is(false).and("userId").is(userId)),
                 Aggregation.sort(new Sort(Sort.Direction.DESC, "count")),
                 Aggregation.limit(10)
 				);
@@ -63,14 +60,14 @@ public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 		List<BasicDBObject> jangleIds = mongoOperations.aggregate(aggregation, "jangle", BasicDBObject.class).getMappedResults();
 
 		Query query=new Query();
-		query.addCriteria(Criteria.where("userId").is(userId).andOperator(Criteria.where("id").in(jangleIds)));
+		query.addCriteria(Criteria.where("userId").is(userId).and("id").in(jangleIds));
 		return mongoOperations.find(query, Jangle.class);
 	}
 
 	@Override
 	public List<Jangle> getByTypeAndUserId(Pageable pageable, Type type, String userId) {
 		Query query=new Query();
-		query.addCriteria(Criteria.where("userId").is(userId).andOperator(Criteria.where("type").is(type)).andOperator(Criteria.where("passive").is(false)));
+		query.addCriteria(Criteria.where("userId").is(userId).and("type").is(type).and("passive").is(false));
 		query.with(pageable);
 		return mongoOperations.find(query, Jangle.class);
 	}
@@ -78,7 +75,7 @@ public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 	@Override
 	public List<Jangle> getByTypeAndUserIdAndIncludeHided(Pageable pageable, Type type, String userId) {
 		Query query=new Query();
-		query.addCriteria(Criteria.where("userId").is(userId).andOperator(Criteria.where("type").is(type)));
+		query.addCriteria(Criteria.where("userId").is(userId).and("type").is(type));
 		query.with(pageable);
 		return mongoOperations.find(query, Jangle.class);
 	}
@@ -86,7 +83,7 @@ public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 	@Override
 	public List<Jangle> getByRecently(Pageable pageable, String userId) {
 		Query query=new Query();
-		query.addCriteria(Criteria.where("userId").is(userId).andOperator(Criteria.where("passive").is(false)));
+		query.addCriteria(Criteria.where("userId").is(userId).and("passive").is(false));
 		query.with(pageable);
 		return mongoOperations.find(query, Jangle.class);
 	}
@@ -102,7 +99,7 @@ public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 	@Override
 	public List<Jangle> getByTagAndRecentlyAndIncludeHided(Pageable pageable, String userId, List<String> tags) {
 		Query query=new Query();
-		query.addCriteria(Criteria.where("tags").andOperator(Criteria.where("userId").is(userId)));
+		query.addCriteria(Criteria.where("tags").and("userId").is(userId));
 		query.with(pageable);
 		return mongoOperations.find(query, Jangle.class);
 	}
@@ -110,7 +107,7 @@ public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 	@Override
 	public List<Jangle> getByTagAndRecently(Pageable pageable, String userId, List<String> tags) {
 		Query query=new Query();
-		query.addCriteria(Criteria.where("passive").andOperator(Criteria.where("tags").andOperator(Criteria.where("userId").is(userId))));
+		query.addCriteria(Criteria.where("passive").andOperator(Criteria.where("tags").in(tags).and("userId").is(userId)));
 		query.with(pageable);
 		return mongoOperations.find(query, Jangle.class);
 	}

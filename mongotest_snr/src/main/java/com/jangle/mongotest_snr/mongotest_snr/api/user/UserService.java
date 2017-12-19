@@ -20,11 +20,11 @@ public interface UserService  {
 	
 	public ResponseEntity<Void> logout(User user);
 	
-	public ResponseEntity<List<User>> getFriends(User user);
+	public ResponseEntity<List<User>> getFriends(String userId);
 	
-	public ResponseEntity<List<User>> getFollowedUsers(User user);
+	public ResponseEntity<List<User>> getFollowedUsers(String userId);
 	
-	public ResponseEntity<List<User>> getFollowerUsers(User user);
+	public ResponseEntity<List<User>> getFollowerUsers(String userId);
 	
 	
 }

@@ -3,6 +3,7 @@ package com.jangle.mongotest_snr.mongotest_snr.api.jangle;
 import java.util.List;
 import java.util.Optional;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -65,8 +66,7 @@ public class JangleServiceImpl implements JangleService {
 		}
 
 		Jangle temp = optUser.get();
-		/* deneme alan - dümdüz save edersek olduğu gibi güncelliyor mudur? */
-		comment.setId(id);
+		comment.setId(new ObjectId(id));
 		temp = jangleRepository.save(comment);
 
 		if (temp != null) {

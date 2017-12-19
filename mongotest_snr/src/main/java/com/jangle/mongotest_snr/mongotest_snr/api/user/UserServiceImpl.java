@@ -3,6 +3,9 @@ package com.jangle.mongotest_snr.mongotest_snr.api.user;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -79,26 +82,54 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ResponseEntity<Void> logout(User user) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
-	public ResponseEntity<List<User>> getFriends(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<List<User>> getFriends(String userId) {
+		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
+		List<User> liste = userRepository.getFriends(pageable, userId);
+		
+		if(liste!=null && !liste.isEmpty())
+		{
+			return ResponseEntity.ok(liste);
+		}
+		else
+		{
+			return ResponseEntity.notFound().build();
+		}
+		
 	}
 
 	@Override
-	public ResponseEntity<List<User>> getFollowedUsers(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<List<User>> getFollowedUsers(String userId) {
+		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
+		List<User> liste = userRepository.getFollowedUsers(pageable, userId);
+		
+		if(liste!=null && !liste.isEmpty())
+		{
+			return ResponseEntity.ok(liste);
+		}
+		else
+		{
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@Override
-	public ResponseEntity<List<User>> getFollowerUsers(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<List<User>> getFollowerUsers(String userId) {
+		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
+		List<User> liste = userRepository.getFollowerUsers(pageable, userId);
+		
+		if(liste!=null && !liste.isEmpty())
+		{
+			return ResponseEntity.ok(liste);
+		}
+		else
+		{
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	

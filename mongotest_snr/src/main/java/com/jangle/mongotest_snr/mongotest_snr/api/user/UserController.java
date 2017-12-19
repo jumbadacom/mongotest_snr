@@ -37,13 +37,31 @@ public class UserController {
 		return userService.getById(id);
 
 	}
-
-	@GetMapping(params = { "page", "size" })
-	public ResponseEntity<List<User>> getComments2(@RequestParam("page") Integer page,
-			@RequestParam("size") Integer size) {
-
-		return null;
+	
+	@GetMapping("/findFriendsByUserId/{id}")
+	public ResponseEntity<List<User>> getFriends(@PathVariable String id)
+	{
+		return userService.getFriends(id); 
 	}
+	
+	@GetMapping("/findFollowerUsersByUserId/{id}")
+	public ResponseEntity<List<User>> getFollowerUsers(@PathVariable String id)
+	{
+		return userService.getFollowerUsers(id);
+	}
+
+	@GetMapping("/findFollowedUsersByUserId/{id}")
+	public ResponseEntity<List<User>> getFollowedUsers(@PathVariable String id)
+	{
+		return userService.getFollowedUsers(id);
+	}
+
+//	@GetMapping(params = { "page", "size" })
+//	public ResponseEntity<List<User>> getComments2(@RequestParam("page") Integer page,
+//			@RequestParam("size") Integer size) {
+//
+//		return null;
+//	}
 
 	@PostMapping
 	public ResponseEntity<Void> save(@RequestBody User user) {

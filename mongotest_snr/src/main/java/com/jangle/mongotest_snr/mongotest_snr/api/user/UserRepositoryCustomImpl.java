@@ -3,6 +3,8 @@ package com.jangle.mongotest_snr.mongotest_snr.api.user;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -67,12 +69,13 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 		if(user==null)
 		{
 			return null;
-		}
+		}		
 		
 		Query query=new Query();
-		query.addCriteria(Criteria.where("passive").is(false).andOperator(Criteria.where("_Id").in(user.getFriendUserId())));
+		query.addCriteria(Criteria.where("passive").is(false).and("_id").in(user.getFriendUserId()));
 		query.with(pageable);
-		return mongoOperations.find(query, User.class);
+		 List<User> friends = mongoOperations.find(query, User.class);
+		return friends;
 	}
 
 
@@ -85,7 +88,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 		}
 		
 		Query query=new Query();
-		query.addCriteria(Criteria.where("passive").is(false).andOperator(Criteria.where("_Id").in(user.getFollowedUserId())));
+		query.addCriteria(Criteria.where("passive").is(false).andOperator(Criteria.where("_id").in(user.getFollowedUserId())));
 		query.with(pageable);
 		return mongoOperations.find(query, User.class);
 	}

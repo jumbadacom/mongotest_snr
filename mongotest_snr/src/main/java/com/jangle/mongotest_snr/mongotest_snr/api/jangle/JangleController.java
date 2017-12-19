@@ -26,18 +26,66 @@ public class JangleController {
 		this.jangleService=jangleService;
 	}
 	
+//	@GetMapping(params = { "page", "size" })
+//	public ResponseEntity<List<Jangle>> getComments2(@RequestParam("page") Integer page,
+//			@RequestParam("size") Integer size) {
+//
+//		return null;
+//	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Jangle> getCommentById(@PathVariable String id) {
+	public ResponseEntity<Jangle> getById(@PathVariable String id) {
 		return jangleService.getById(id);
-
 	}
 
-	@GetMapping(params = { "page", "size" })
-	public ResponseEntity<List<Jangle>> getComments2(@RequestParam("page") Integer page,
-			@RequestParam("size") Integer size) {
+	@GetMapping("/getByUserId/{userId}")
+	public ResponseEntity<List<Jangle>> getByUserId(@PathVariable String userId) {
+		return jangleService.getByUserId(userId);
+	}
 
-		return null;
+
+	@GetMapping("/getByMostLikedAndUserId/{userId}")
+	public ResponseEntity<List<Jangle>> getByMostLikedAndUserId(String userId) {
+		return jangleService.getByMostLikedAndUserId(userId);
+	}
+
+
+	@GetMapping("/getByMostSharedAndUserId/{userId}")
+	public ResponseEntity<List<Jangle>> getByMostSharedAndUserId(String userId) {
+		return jangleService.getByMostSharedAndUserId(userId);
+	}
+
+
+	@GetMapping(path="/getByTypeAndUserId/{userId}/type/{type}")
+	public ResponseEntity<List<Jangle>> getByTypeAndUserId(@PathVariable(name="type") Type type, @PathVariable(name="userId") String userId) {
+		return jangleService.getByTypeAndUserId(type, userId);
+	}
+
+
+	@GetMapping(path="/getByTypeAndUserIdAndIncludeHided/{userId}/type/{type}")
+	public ResponseEntity<List<Jangle>> getByTypeAndUserIdAndIncludeHided(@PathVariable(name="type") Type type, @PathVariable(name="userId") String userId) {
+		return jangleService.getByTypeAndUserIdAndIncludeHided(type, userId);
+	}
+
+
+	@GetMapping(path="/getByRecently/{userId}")
+	public ResponseEntity<List<Jangle>> getByRecently(String userId) {
+		return jangleService.getByRecently(userId);
+	}
+
+	@GetMapping(path="/getByRecentlyAndIncludeHided/{userId}")
+	public ResponseEntity<List<Jangle>> getByRecentlyAndIncludeHided(String userId) {
+		return jangleService.getByRecentlyAndIncludeHided(userId);
+	}
+
+	@GetMapping(path="/getByTagAndRecentlyAndIncludeHided/{userId}")
+	public ResponseEntity<List<Jangle>> getByTagAndRecentlyAndIncludeHided(@PathVariable String userId,@RequestBody List<String> tags) {
+		return jangleService.getByTagAndRecentlyAndIncludeHided(userId,tags);
+	}
+
+	@GetMapping(path="/getByTagAndRecently/{userId}")
+	public ResponseEntity<List<Jangle>> getByTagAndRecently(@PathVariable String userId,@RequestBody List<String> tags) {
+		return jangleService.getByTagAndRecently(userId,tags);
 	}
 
 	@PostMapping
@@ -57,5 +105,4 @@ public class JangleController {
 		return jangleService.update(id,jangle);
 
 	}
-
 }
