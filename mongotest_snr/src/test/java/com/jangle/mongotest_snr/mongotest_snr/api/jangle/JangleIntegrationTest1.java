@@ -2,7 +2,15 @@ package com.jangle.mongotest_snr.mongotest_snr.api.jangle;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
 
+import org.bson.types.ObjectId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,24 +44,39 @@ public class JangleIntegrationTest1 {
 	@Test
 	public void testCreateJangle() throws Exception { 
 		log.info("test jangle");
-		Jangle j = new Jangle();
-		j.setLikeCount(55);
-		j.setHideCount(4);
-		j.setPassive(false);
-		j.setShareCount(444);
-		j.setViewCount(1111);
-	
-		String uriToCreateJangle = "/api/jangles";
-		String inputInJson = this.mapToJson(j);
 		
-		HttpEntity<Jangle> entity = new HttpEntity<Jangle>(j, headers);
+	Jangle jangle=getTestJangle();
+		String uriToCreateJangle = "/api/jangles";
+		String inputInJson = this.mapToJson(jangle);
+		HttpEntity<Jangle> doc = new HttpEntity<Jangle>(jangle, headers);
 		ResponseEntity<String> response = testRestTemplate.exchange(
 				formFullURLWithPort(uriToCreateJangle),
-				HttpMethod.POST, entity, String.class);
+				HttpMethod.POST, doc, String.class);
 		String responseInJson = response.getBody();
 		assertThat(responseInJson).isEqualTo(inputInJson);
 	}
 	
+	private Jangle getTestJangle() {
+		Jangle j = new Jangle();
+		List<ObjectId> list = new ArrayList<>();
+		list.add(new ObjectId("5a39047fdcf7c604d48ebfe7"));
+		j.setId(new ObjectId());
+		j.setUserId(new ObjectId("5a3903b9dcf7c604d460f926"));
+		j.setType(Type.SOUND);
+		j.setLikeUserId(list);
+		j.setLikeCount(55);
+		j.setHideUserId (list);
+		j.setHideCount(4);
+		j.setSharedUserId(new ArrayList<>());
+		j.setShareCount(44);
+		j.setViewCount(new Random().nextInt(500));
+		j.setPassive(false);
+		Calendar takvim=Calendar.getInstance();
+		takvim.add(Calendar.DAY_OF_MONTH, new Random().nextInt(900)*-1);
+		j.setRegisteredTime(LocalDateTime.ofInstant(takvim.toInstant(), ZoneId.systemDefault()));
+		j.setTags(Arrays.asList(new String[] {"test"+new Random().nextInt(1000),"deneme-"+new Random().nextInt(1000)}));
+		return j;
+	}
 	
 	
 	
