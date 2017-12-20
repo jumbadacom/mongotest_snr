@@ -1,4 +1,4 @@
-package com.jangle.mongotest_snr.mongotest_snr.api.jangle;
+package com.jangle.mongotest_snr.mongotest_snr.api.tail;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,11 +25,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Document(collection="jangles")
+@Document(collection="tails")
 @CompoundIndexes({
     @CompoundIndex(name = "registeredTime_type", def = "{'registeredTime':1, 'type': 1, 'tags':1}",sparse=true,background=true)
 })
-public class Jangle {
+public class Tail {
 	
 	@Id
 	private ObjectId id=null;
@@ -38,7 +38,6 @@ public class Jangle {
 	@NotNull
 	private ObjectId userId=null;
 
-	@NotNull
 	@JsonProperty
 	private Type type=null;
 	
@@ -57,6 +56,7 @@ public class Jangle {
 	@NotNull
 	@JsonProperty
 	private Integer hideCount = 0;
+	
 	
 	@JsonProperty
 	private List<ObjectId> sharedUserId = new ArrayList<>();
