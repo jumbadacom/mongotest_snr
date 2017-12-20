@@ -11,8 +11,10 @@ import java.util.List;
 import java.util.Random;
 
 import org.bson.types.ObjectId;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -22,10 +24,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.servlet.mvc.method.annotation.HttpHeadersReturnValueHandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jangle.mongotest_snr.mongotest_snr.MongotestSnrApplication;
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,18 +45,23 @@ public class JangleIntegrationTest1 {
 	private TestRestTemplate testRestTemplate;
 	private HttpHeaders headers = new HttpHeaders();
 	
+	
 	@Test
 	public void testCreateJangle() throws Exception { 
-		log.info("test jangle");
+		log.info("test : jangle");
+		headers.set(HttpHeaders.CONNECTION, "keep-alive");
+		headers.set(HttpHeaders.CONTENT_TYPE, "application/json");
 		
 	Jangle jangle=getTestJangle();
 		String uriToCreateJangle = "/api/jangles";
+		log.info("test path : "+formFullURLWithPort(uriToCreateJangle));
 		String inputInJson = this.mapToJson(jangle);
 		HttpEntity<Jangle> doc = new HttpEntity<Jangle>(jangle, headers);
 		ResponseEntity<String> response = testRestTemplate.exchange(
 				formFullURLWithPort(uriToCreateJangle),
 				HttpMethod.POST, doc, String.class);
 		String responseInJson = response.getBody();
+		log.info("test response : "+responseInJson);
 		assertThat(responseInJson).isEqualTo(inputInJson);
 	}
 	
