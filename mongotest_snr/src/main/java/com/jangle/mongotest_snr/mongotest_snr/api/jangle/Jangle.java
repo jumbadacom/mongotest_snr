@@ -17,7 +17,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Document(collection="jangles")
 @CompoundIndexes({
-    @CompoundIndex(name = "user_type_registeredTime", def = "{'userId' : 1, 'type': 1 , 'registeredTime':1, 'tags':1}")
+    @CompoundIndex(name = "registeredTime_type", def = "{'registeredTime':1, 'type': 1, 'tags':1}",sparse=true,background=true)
 })
 public class Jangle {
 	
