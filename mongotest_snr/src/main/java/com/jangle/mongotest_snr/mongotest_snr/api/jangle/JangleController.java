@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@RequestMapping(value = "api/jangle")
+@RequestMapping(value = "api/jangles")
 @RestController
 //@RequiredArgsConstructor(onConstructor = @__(@Autowired) )
 public class JangleController {

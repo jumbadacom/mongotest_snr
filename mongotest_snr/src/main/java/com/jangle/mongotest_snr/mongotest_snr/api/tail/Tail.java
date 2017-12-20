@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Document(collection="tails")
+@Document(collection="jangles")
 @CompoundIndexes({
     @CompoundIndex(name = "registeredTime_type", def = "{'registeredTime':1, 'type': 1, 'tags':1}",sparse=true,background=true)
 })

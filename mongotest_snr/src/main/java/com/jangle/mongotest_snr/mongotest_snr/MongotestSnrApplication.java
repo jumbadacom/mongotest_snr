@@ -1,7 +1,28 @@
 package com.jangle.mongotest_snr.mongotest_snr;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
+
+import org.bson.types.ObjectId;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
+
+import com.jangle.mongotest_snr.mongotest_snr.api.jangle.Jangle;
+import com.jangle.mongotest_snr.mongotest_snr.api.jangle.JangleRepository;
+import com.jangle.mongotest_snr.mongotest_snr.api.jangle.Type;
+import com.jangle.mongotest_snr.mongotest_snr.api.user.User;
+import com.jangle.mongotest_snr.mongotest_snr.api.user.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,7 +35,7 @@ public class MongotestSnrApplication {
 
 	}
 
-	/*
+
 	@Bean
 	public CommandLineRunner init(UserRepository userRepository, JangleRepository jangleRepository) {
 		
@@ -29,6 +50,8 @@ public class MongotestSnrApplication {
 		
 			
 		return args -> {
+			
+			/*
 			StringBuilder sb = null;
 			List<User> kullanicilar= new ArrayList<>();
 			List<User> followers= new ArrayList<>();
@@ -181,10 +204,34 @@ public class MongotestSnrApplication {
 			
 			jangleRepository.saveAll(jangleList);
 			System.out.println("İşlem Bitti");
-
+*/
+			jangleRepository.save(getTestJangle());
 		};
 		
+	
 
 	}
-*/
+
+	
+	private Jangle getTestJangle() {
+		Jangle j = new Jangle();
+		List<ObjectId> list = new ArrayList<>();
+		list.add(new ObjectId("5a39047fdcf7c604d48ebfe7"));
+		j.setId(new ObjectId());
+		j.setUserId(new ObjectId("5a3903b9dcf7c604d460f926"));
+		j.setType(Type.SOUND);
+		j.setLikeUserId(list);
+		j.setLikeCount(55);
+		j.setHideUserId (list);
+		j.setHideCount(4);
+		j.setSharedUserId(new ArrayList<>());
+		j.setShareCount(44);
+		j.setViewCount(new Random().nextInt(500));
+		j.setPassive(false);
+		Calendar takvim=Calendar.getInstance();
+		takvim.add(Calendar.DAY_OF_MONTH, new Random().nextInt(900)*-1);
+		j.setRegisteredTime(LocalDateTime.ofInstant(takvim.toInstant(), ZoneId.systemDefault()));
+		j.setTags(Arrays.asList(new String[] {"test"+new Random().nextInt(1000),"deneme-"+new Random().nextInt(1000)}));
+		return j;
+	}
 }

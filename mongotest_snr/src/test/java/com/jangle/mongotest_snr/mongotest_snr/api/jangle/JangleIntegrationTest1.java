@@ -1,6 +1,6 @@
 package com.jangle.mongotest_snr.mongotest_snr.api.jangle;
 
-import static org.springframework.core.env.AbstractEnvironment.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -9,54 +9,57 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.LogRecord;
-
-import javax.swing.ListModel;
-
-import static org.junit.Assert.assertNotNull;
-import static org.springframework.boot.test.context.SpringBootTest.*;
 
 import org.bson.types.ObjectId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jangle.mongotest_snr.mongotest_snr.MongotestSnrApplication;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@EnableAutoConfiguration
-public class JangleTest {
-	
-	@Autowired
-	private TestRestTemplate restTemplate;
+@SpringBootTest(classes = MongotestSnrApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class JangleIntegrationTest1 {
 	
 	@LocalServerPort
 	private int port;
 	
+	@Autowired
+	private TestRestTemplate testRestTemplate;
+	private HttpHeaders headers = new HttpHeaders();
+	
 	@Test
-	public void ensureInsertWorks() throws Exception {
-		 log.info("test");
-		 Jangle jangle =getTestJangle();
-	
-		 ResponseEntity<Jangle> responseEntity = restTemplate.postForEntity(formFullURLWithPort("api/jangles"), jangle,Jangle.class);
-		 Jangle jangleReturned = responseEntity.getBody();
-		 assertNotNull("Should have an PK", jangleReturned.getId());
-	
+	public void testCreateJangle() throws Exception { 
+		log.info("test jangle");
+		
+	Jangle jangle=getTestJangle();
+		String uriToCreateJangle = "/api/jangles";
+		String inputInJson = this.mapToJson(jangle);
+		HttpEntity<Jangle> doc = new HttpEntity<Jangle>(jangle, headers);
+		ResponseEntity<String> response = testRestTemplate.exchange(
+				formFullURLWithPort(uriToCreateJangle),
+				HttpMethod.POST, doc, String.class);
+		String responseInJson = response.getBody();
+		assertThat(responseInJson).isEqualTo(inputInJson);
 	}
 	
 	private Jangle getTestJangle() {
 		Jangle j = new Jangle();
 		List<ObjectId> list = new ArrayList<>();
 		list.add(new ObjectId("5a39047fdcf7c604d48ebfe7"));
-		
 		j.setId(new ObjectId());
 		j.setUserId(new ObjectId("5a3903b9dcf7c604d460f926"));
 		j.setType(Type.SOUND);
@@ -75,8 +78,23 @@ public class JangleTest {
 		return j;
 	}
 	
+	
+	
+	
+	/**
+	 * this utility method Maps an Object into a JSON String. Uses a Jackson ObjectMapper.
+	 */
+	private String mapToJson(Object object) throws JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		return objectMapper.writeValueAsString(object);
+	}
+
+    /**
+     * This utility method to create the url for given uri. It appends the RANDOM_PORT generated port
+     */
 	private String formFullURLWithPort(String uri) {
 		return "http://localhost:" + port + uri;
 	}
-
 }
+
+
