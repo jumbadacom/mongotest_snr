@@ -1,27 +1,7 @@
 package com.jangle.mongotest_snr.mongotest_snr;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Random;
-
-import org.bson.types.ObjectId;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
-
-import com.jangle.mongotest_snr.mongotest_snr.api.jangle.Jangle;
-import com.jangle.mongotest_snr.mongotest_snr.api.jangle.JangleRepository;
-import com.jangle.mongotest_snr.mongotest_snr.api.jangle.Type;
-import com.jangle.mongotest_snr.mongotest_snr.api.user.User;
-import com.jangle.mongotest_snr.mongotest_snr.api.user.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
