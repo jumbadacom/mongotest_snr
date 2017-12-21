@@ -205,7 +205,8 @@ public class MongotestSnrApplication {
 			jangleRepository.saveAll(jangleList);
 			System.out.println("İşlem Bitti");
 */
-			jangleRepository.save(getTestJangle());
+		
+			//jangleRepository.save(getTestJangle());
 		};
 		
 	

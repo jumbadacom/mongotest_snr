@@ -57,6 +57,9 @@ public class JangleTest {
 		 Jangle jangleReturned = responseEntity.getBody();
 		 log.info("test response : "+jangleReturned);
 		 assertNotNull("Should have an PK", jangleReturned.getId());
+		 
+		 
+		 
 	
 	}
 	
