@@ -166,6 +166,18 @@ public class JangleServiceImpl implements JangleService {
 			return ResponseEntity.notFound().build();
 	}
 
+	@Override
+	public ResponseEntity<List<Jangle>> getByViewCountBetweenAndLikeCountBetween(
+			int viewCountBiggerThan, int viewCountLessThan, int likeCountBiggerThan, int likeCountLessThan) {
+		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
+		List<Jangle> jangleList = jangleRepository.getByViewCountBetweenAndLikeCountBetween(pageable, viewCountBiggerThan, viewCountLessThan, likeCountBiggerThan, likeCountLessThan);
+		if (jangleList != null && !jangleList.isEmpty())
+			return ResponseEntity.ok(jangleList);
+		else
+			return ResponseEntity.notFound().build();
+	}
+
+
 	/*
 	 * @Override public ResponseEntity<Jangle> getCommentById(String id) {
 	 * Optional<Jangle> optUser = jangleRepository.findById(id); if

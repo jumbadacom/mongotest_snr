@@ -113,8 +113,7 @@ public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 	}
 
 	@Override
-	public List<Jangle> getByViewCountBetweenAndLikeCountBetween(Pageable pageable, int viewCountBiggerThan,
-			int viewCountLessThan, int likeCountBiggerThan, int likeCountLessThan) {
+	public List<Jangle> getByViewCountBetweenAndLikeCountBetween(Pageable pageable, int viewCountBiggerThan,int viewCountLessThan, int likeCountBiggerThan, int likeCountLessThan) {
 		Criteria cr=Criteria.where("passive").is(false)
 		.andOperator(
 				new Criteria[] {

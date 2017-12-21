@@ -1,5 +1,6 @@
 package com.jangle.mongotest_snr.mongotest_snr.api.user;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,8 @@ public interface UserService  {
 	public ResponseEntity<List<User>> getFollowedUsers(String userId);
 	
 	public ResponseEntity<List<User>> getFollowerUsers(String userId);
+	
+	public ResponseEntity<List<User>> getByJangleCountOverAndViewCountOverAndSinceDate(int jangleCount, int viewCount, String dateString);
 	
 	
 }

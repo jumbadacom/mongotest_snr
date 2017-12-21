@@ -43,30 +43,25 @@ public class JangleController {
 		return jangleService.getByUserId(userId);
 	}
 
-
 	@GetMapping("/getByMostLikedAndUserId/{userId}")
 	public ResponseEntity<List<Jangle>> getByMostLikedAndUserId(String userId) {
 		return jangleService.getByMostLikedAndUserId(userId);
 	}
-
 
 	@GetMapping("/getByMostSharedAndUserId/{userId}")
 	public ResponseEntity<List<Jangle>> getByMostSharedAndUserId(String userId) {
 		return jangleService.getByMostSharedAndUserId(userId);
 	}
 
-
 	@GetMapping(path="/getByTypeAndUserId/{userId}/type/{type}")
 	public ResponseEntity<List<Jangle>> getByTypeAndUserId(@PathVariable(name="type") Type type, @PathVariable(name="userId") String userId) {
 		return jangleService.getByTypeAndUserId(type, userId);
 	}
 
-
 	@GetMapping(path="/getByTypeAndUserIdAndIncludePassive/{userId}/type/{type}")
 	public ResponseEntity<List<Jangle>> getByTypeAndUserIdAndIncludePassive(@PathVariable(name="type") Type type, @PathVariable(name="userId") String userId) {
 		return jangleService.getByTypeAndUserIdAndIncludePassive(type, userId);
 	}
-
 
 	@GetMapping(path="/getByRecently/{userId}")
 	public ResponseEntity<List<Jangle>> getByRecently(String userId) {
@@ -87,6 +82,13 @@ public class JangleController {
 	public ResponseEntity<List<Jangle>> getByTagAndRecently(@PathVariable String userId,@RequestBody List<String> tags) {
 		return jangleService.getByTagAndRecently(userId,tags);
 	}
+	
+	@GetMapping(path="/getByViewCountBetweenAndLikeCountBetween",params= {"viewCountBiggerThan","viewCountLessThan","likeCountBiggerThan","likeCountLessThan"})
+	public ResponseEntity<List<Jangle>> getByViewCountBetweenAndLikeCountBetween(@RequestParam Integer viewCountBiggerThan,@RequestParam Integer viewCountLessThan,
+			@RequestParam Integer likeCountBiggerThan,@RequestParam Integer likeCountLessThan) 
+	{
+		return jangleService.getByViewCountBetweenAndLikeCountBetween(viewCountBiggerThan, viewCountLessThan, likeCountBiggerThan, likeCountLessThan);
+	}	
 
 	@PostMapping
 	public ResponseEntity<Void> save(@RequestBody Jangle jangle) {
@@ -103,6 +105,7 @@ public class JangleController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> update(@PathVariable String id, @RequestBody Jangle jangle) {
 		return jangleService.update(id,jangle);
-
 	}
+	
+	
 }

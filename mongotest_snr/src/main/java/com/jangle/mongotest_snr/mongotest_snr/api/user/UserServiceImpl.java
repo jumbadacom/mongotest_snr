@@ -1,5 +1,8 @@
 package com.jangle.mongotest_snr.mongotest_snr.api.user;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +32,6 @@ public class UserServiceImpl implements UserService {
 		else
 			return ResponseEntity.ok(optUser.get());
 	}
-
 
 	@Override
 	public ResponseEntity<Void> save(User user) {
@@ -70,8 +72,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ResponseEntity<Void> insert(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		user=userRepository.insert(user);
+		if (user != null) {
+			return ResponseEntity.created(null).build();
+		} else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 
 	@Override
@@ -131,6 +137,34 @@ public class UserServiceImpl implements UserService {
 			return ResponseEntity.notFound().build();
 		}
 	}
+
+	
+	@Override
+	public ResponseEntity<List<User>> getByJangleCountOverAndViewCountOverAndSinceDate(int jangleCount, int viewCount,String dateString) {
+		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
+		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+		
+		Date date=null;
+		try {
+			date = sdf.parse(dateString);
+		} catch (ParseException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+		
+		List<User> liste = userRepository.getByJangleCountOverAndViewCountOverAndSinceDate(pageable, jangleCount, viewCount, date);
+		
+		if(liste!=null && !liste.isEmpty())
+		{
+			return ResponseEntity.ok(liste);
+		}
+		else
+		{
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+
 
 	
 }

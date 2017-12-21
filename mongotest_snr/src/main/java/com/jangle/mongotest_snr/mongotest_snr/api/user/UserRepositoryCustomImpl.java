@@ -1,14 +1,20 @@
 package com.jangle.mongotest_snr.mongotest_snr.api.user;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+
+import com.jangle.mongotest_snr.mongotest_snr.api.jangle.Jangle;
+import com.mongodb.BasicDBObject;
 
 //import lombok.extern.slf4j.Slf4j;
 
@@ -103,17 +109,29 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
 
 	@Override
-	public List<User> getByJangleCountOverAndViewCountOverAndSinceDate(Pageable pageable, int jangleCount,
-			int viewCount, Date date) {
-//		
-//		
-//		
-//		Criteria cr=Criteria.where("passive").is(false).and("likeCount").gt(jangleCount).
-//		Query query=new Query();
-//		query.with(pageable);
-//		return mongoOperations.find(query, User.class);
+	public List<User> getByJangleCountOverAndViewCountOverAndSinceDate(Pageable pageable, int jangleCount, int viewCount, Date date) {
+
+		MatchOperation matchStage =Aggregation.match(Criteria.where("registeredTime").gt(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));
+//		GroupOperation groupStage =Aggregation.group("userId").count().as("jangleCount"); 
+//		MatchOperation matchStageHaving =Aggregation.match(Criteria.where("jangleCount").gt(jangleCount));
+		SortOperation sortStage = Aggregation.sort(pageable.getSort());
+		LimitOperation limitOperation=Aggregation.limit(10);
 		
-		return null;
+		
+		Aggregation aggregation = Aggregation.newAggregation(
+				matchStage,
+//				groupStage,
+//				matchStageHaving,
+				sortStage,
+				limitOperation
+				);
+		System.out.println(aggregation.toString());
+		
+		List<BasicDBObject> userIds = mongoOperations.aggregate(aggregation, "jangle", BasicDBObject.class).getMappedResults();
+
+		Query query=new Query();
+		query.addCriteria(Criteria.where("id").in(userIds));
+		return mongoOperations.find(query, User.class);
 	}
 
 	

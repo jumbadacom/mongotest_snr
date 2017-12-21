@@ -36,7 +36,10 @@ public class Tail {
 	
 	@Indexed(unique=false,background=true,sparse=true)
 	@NotNull
-	private ObjectId userId=null;
+	private ObjectId tailUserId=null;
+	
+	@JsonProperty
+	private ObjectId jangleId=null;
 
 	@JsonProperty
 	private Type type=null;
@@ -86,10 +89,10 @@ public class Tail {
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
 	private LocalDateTime updatedTime=null;
 	
-	@Indexed(unique=false,background=true,sparse=true)
-	@JsonProperty
-	@Size(min=1,max=255)
-	private List<String> tags = new ArrayList<>();
+//	@Indexed(unique=false,background=true,sparse=true)
+//	@JsonProperty
+//	@Size(min=1,max=255)
+//	private List<String> tags = new ArrayList<>();
 	
 	
 }

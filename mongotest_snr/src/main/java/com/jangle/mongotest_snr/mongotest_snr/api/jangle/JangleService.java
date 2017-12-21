@@ -2,6 +2,7 @@ package com.jangle.mongotest_snr.mongotest_snr.api.jangle;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public interface JangleService  {
@@ -31,4 +32,6 @@ public interface JangleService  {
 	public ResponseEntity<List<Jangle>> getByTagAndRecentlyAndIncludePassive( String userId, List<String> tags);
 	
 	public ResponseEntity<List<Jangle>> getByTagAndRecently( String userId, List<String> tags);
+	
+	public ResponseEntity<List<Jangle>> getByViewCountBetweenAndLikeCountBetween(int viewCountBiggerThan,int viewCountLessThan, int likeCountBiggerThan, int likeCountLessThan);
 }
