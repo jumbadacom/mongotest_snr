@@ -24,6 +24,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -37,18 +39,27 @@ public class JangleTest {
 	
 	@Autowired
 	private TestRestTemplate restTemplate;
+	private HttpHeaders headers = new HttpHeaders();
 	
 	@LocalServerPort
 	private int port;
 	
 	@Test
 	public void ensureInsertWorks() throws Exception {
-		 log.info("test");
+		log.info("test : jangle");
+		headers.set(HttpHeaders.CONNECTION, "keep-alive");
+		headers.set(HttpHeaders.CONTENT_TYPE, "application/json");
 		 Jangle jangle =getTestJangle();
-	
-		 ResponseEntity<Jangle> responseEntity = restTemplate.postForEntity(formFullURLWithPort("api/jangles"), jangle,Jangle.class);
+		HttpEntity<Jangle> doc = new HttpEntity<Jangle>(jangle, headers);
+		
+		
+		 ResponseEntity<Jangle> responseEntity = restTemplate.postForEntity(formFullURLWithPort("api/jangles"), doc,Jangle.class);
 		 Jangle jangleReturned = responseEntity.getBody();
+		 log.info("test response : "+jangleReturned);
 		 assertNotNull("Should have an PK", jangleReturned.getId());
+		 
+		 
+		 
 	
 	}
 	

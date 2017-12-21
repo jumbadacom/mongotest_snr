@@ -33,5 +33,7 @@ public interface JangleService  {
 	
 	public ResponseEntity<List<Jangle>> getByTagAndRecently( String userId, List<String> tags);
 	
+	public ResponseEntity<List<Jangle>> getByUserUnlikedJangles(String userId);
+	
 	public ResponseEntity<List<Jangle>> getByViewCountBetweenAndLikeCountBetween(int viewCountBiggerThan,int viewCountLessThan, int likeCountBiggerThan, int likeCountLessThan);
 }

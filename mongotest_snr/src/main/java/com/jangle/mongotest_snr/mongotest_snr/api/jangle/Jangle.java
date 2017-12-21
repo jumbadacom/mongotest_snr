@@ -32,10 +32,12 @@ import lombok.NoArgsConstructor;
 public class Jangle {
 	
 	@Id
+	@JsonProperty
 	private ObjectId id=null;
 	
 	@Indexed(unique=false,background=true,sparse=true)
 	@NotNull
+	@JsonProperty
 	private ObjectId userId=null;
 
 	@NotNull

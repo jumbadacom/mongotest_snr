@@ -177,6 +177,16 @@ public class JangleServiceImpl implements JangleService {
 			return ResponseEntity.notFound().build();
 	}
 
+	@Override
+	public ResponseEntity<List<Jangle>> getByUserUnlikedJangles(String userId) {
+		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
+		List<Jangle> jangleList = jangleRepository.getByUserUnlikedJangles(pageable, userId);
+		if (jangleList != null && !jangleList.isEmpty())
+			return ResponseEntity.ok(jangleList);
+		else
+			return ResponseEntity.notFound().build();
+	}
+
 
 	/*
 	 * @Override public ResponseEntity<Jangle> getCommentById(String id) {

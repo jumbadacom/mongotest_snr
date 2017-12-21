@@ -27,4 +27,6 @@ public interface JangleRepositoryCustom {
 	public List<Jangle> getByViewCountBetweenAndLikeCountBetween(Pageable pageable, int viewCountBiggerThan, int viewCountLessThan,int likeCountBiggerThan, int likeCountLessThan);
 
 	public List<Jangle> getByViewCountOverAndLikeCountOver(Pageable pageable, int viewCount, int likeCount);
+	
+	public List<Jangle> getByUserUnlikedJangles(Pageable pageable, String userId);
 }

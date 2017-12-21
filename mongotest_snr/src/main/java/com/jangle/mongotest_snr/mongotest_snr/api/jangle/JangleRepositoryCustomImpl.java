@@ -2,6 +2,7 @@ package com.jangle.mongotest_snr.mongotest_snr.api.jangle;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -118,11 +119,7 @@ public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 		.andOperator(
 				new Criteria[] {
 						Criteria.where("likeCount").gte(likeCountBiggerThan),
-						Criteria.where("likeCount").lte(likeCountLessThan)
-								}
-					)
-		.andOperator(
-				new Criteria[] {
+						Criteria.where("likeCount").lte(likeCountLessThan),
 						Criteria.where("viewCount").gte(viewCountBiggerThan),
 						Criteria.where("viewCount").lte(viewCountLessThan)
 								}
@@ -131,8 +128,8 @@ public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 		Query query=new Query();
 		query.addCriteria(cr);
 		query.with(pageable);
-		
-		return mongoOperations.find(query, Jangle.class);
+		List<Jangle> jangles=mongoOperations.find(query, Jangle.class);
+		return  jangles;
 	}
 
 	@Override
@@ -146,6 +143,17 @@ public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 				query.with(pageable);
 				
 				return mongoOperations.find(query, Jangle.class);
+	}
+
+	@Override
+	public List<Jangle> getByUserUnlikedJangles(Pageable pageable, String userId) {
+		Criteria cr=Criteria.where("passive").is(false).and("likeCount").is(0).and("userId").is(new ObjectId(userId));
+		
+		Query query=new Query();
+		query.addCriteria(cr);
+		query.with(pageable);
+		
+		return mongoOperations.find(query, Jangle.class);	
 	}
 
 }

@@ -89,6 +89,12 @@ public class JangleController {
 	{
 		return jangleService.getByViewCountBetweenAndLikeCountBetween(viewCountBiggerThan, viewCountLessThan, likeCountBiggerThan, likeCountLessThan);
 	}	
+	
+	@GetMapping(path="/getByUserUnlikedJangles/{userId}/userId")
+	public ResponseEntity<List<Jangle>> getByUserUnlikedJangles(@PathVariable String userId) 
+	{
+		return jangleService.getByUserUnlikedJangles(userId);
+	}
 
 	@PostMapping
 	public ResponseEntity<Void> save(@RequestBody Jangle jangle) {
