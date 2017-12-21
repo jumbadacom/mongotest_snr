@@ -210,7 +210,7 @@ public class MongotestSnrApplication {
 */
 			
 			List<Tail> tailList=new ArrayList<>();
-			for (int i = 0; i < 25000000; i++) {
+			for (int i = 0; i < 12000000; i++) {
 				try {
 					Tail tail = new Tail();
 					List<ObjectId> hidedUsers=new ArrayList<>();
