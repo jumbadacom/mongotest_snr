@@ -29,6 +29,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.jangle.mongotest_snr.mongotest_snr.api.enums.Type;
+import com.jangle.mongotest_snr.mongotest_snr.api.rest.jangle.Jangle;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

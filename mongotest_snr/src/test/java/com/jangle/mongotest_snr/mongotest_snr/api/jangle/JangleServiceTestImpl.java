@@ -26,6 +26,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jangle.mongotest_snr.mongotest_snr.api.rest.jangle.Jangle;
 
 import lombok.extern.slf4j.Slf4j;
 

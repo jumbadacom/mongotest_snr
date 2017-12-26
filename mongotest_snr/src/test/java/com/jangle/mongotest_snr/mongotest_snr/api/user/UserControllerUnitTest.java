@@ -11,6 +11,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.jangle.mongotest_snr.mongotest_snr.api.rest.user.UserController;
+import com.jangle.mongotest_snr.mongotest_snr.api.rest.user.UserService;
+
 public class UserControllerUnitTest {
 
 
