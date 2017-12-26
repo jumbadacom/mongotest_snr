@@ -2,12 +2,16 @@ package com.jangle.mongotest_snr.mongotest_snr.api.rest.jangle;
 
 import java.util.List;
 
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+import static org.springframework.data.mongodb.core.query.Criteria.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -156,5 +160,36 @@ public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 		
 		return mongoOperations.find(query, Jangle.class);	
 	}
+	
+	
+	
+	public AggregationResults<BasicDBObject> test() {
+		
+		AggregationOperation group = Aggregation.group("userId").sum("viewCount").as("userViewCount");
+		AggregationOperation matchFilter = Aggregation.match(new Criteria("userViewCount").gt(500000));
+		AggregationOperation sort = Aggregation.sort(Sort.Direction.DESC, "userViewCount");
+		AggregationOperation limit = Aggregation.limit(10);
+		Aggregation aggregation =Aggregation.newAggregation(group,sort,matchFilter,limit);
+		AggregationResults<BasicDBObject> result = mongoOperations.aggregate(aggregation,"views" ,BasicDBObject.class);
+		return result;
+		/*final Aggregation aggregation = newAggregation(
+				new Sort(Sort.Direction.DESC, "viewCount"),
+			);*/
+	}
+	
+	public AggregationResults<TypeCount> test2(String userId) {
+		Aggregation agg = newAggregation( 
+				match(Criteria.where("_id").is(userId)),
+				group("type").count().as("tip"),
+				project("tip").and("type").previousOperation(),
+				sort(Sort.Direction.DESC, "tip")
+				);
+		AggregationResults<TypeCount> groupResults =
+		mongoOperations.aggregate(agg, Jangle.class ,TypeCount.class);
+		return groupResults;
+		
+	}
+	
+	
 
 }
