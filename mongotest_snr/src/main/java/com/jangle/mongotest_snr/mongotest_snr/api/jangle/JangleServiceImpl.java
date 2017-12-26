@@ -39,6 +39,16 @@ public class JangleServiceImpl implements JangleService {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+	
+	@Override
+	public ResponseEntity<Void> save2(Jangle comment) {
+		Jangle sonuc = jangleRepository.insert(comment);
+		if (sonuc != null) {
+			return ResponseEntity.created(null).build();
+		} else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 
 	@Override
 	public ResponseEntity<Void> delete(String id) {
@@ -181,6 +191,43 @@ public class JangleServiceImpl implements JangleService {
 	public ResponseEntity<List<Jangle>> getByUserUnlikedJangles(String userId) {
 		Pageable pageable=PageRequest.of(0, 25, new Sort(Sort.Direction.DESC, "id"));
 		List<Jangle> jangleList = jangleRepository.getByUserUnlikedJangles(pageable, userId);
+		if (jangleList != null && !jangleList.isEmpty())
+			return ResponseEntity.ok(jangleList);
+		else
+			return ResponseEntity.notFound().build();
+	}
+
+	@Override
+	public ResponseEntity<List<Jangle>> findTop10ByViewcountGreaterThanOrderByViewcountDescMongoOperationCriteria(int viewCount) {
+		List<Jangle> jangleList =jangleRepository.findTop10ByViewcountGreaterThanOrderByViewcountDescMongoOperation(viewCount);
+		if (jangleList != null && !jangleList.isEmpty())
+			return ResponseEntity.ok(jangleList);
+		else
+			return ResponseEntity.notFound().build();
+	}
+
+	@Override
+	public ResponseEntity<List<Jangle>> findTop10ByViewcountGreaterThanOrderByViewcountDescMongoOperationRepository(int viewCount) {
+//		List<Jangle> jangleList =jangleRepository.findTop10ByViewCountGreaterThanOrderByViewcountDesc(viewCount);
+//		if (jangleList != null && !jangleList.isEmpty())
+//			return ResponseEntity.ok(jangleList);
+//		else
+			return ResponseEntity.notFound().build();
+	}
+
+	@Override
+	public ResponseEntity<List<Jangle>> findTop10ByViewcountGreaterThanOrderByViewcountDescMongoOperationQuery(int viewCount) {
+		Pageable pageable=PageRequest.of(0, 10, new Sort(Sort.Direction.DESC, "viewCount"));
+		List<Jangle> jangleList =jangleRepository.findTop10ByViewcountGreaterThanOrderByViewcountDescQuery(pageable,viewCount);
+		if (jangleList != null && !jangleList.isEmpty())
+			return ResponseEntity.ok(jangleList);
+		else
+			return ResponseEntity.notFound().build();
+	}
+
+	@Override
+	public ResponseEntity<List<Jangle>> findTop10ByViewcountGreaterThanOrderByViewcountDescMongoOperationBasic(int viewCount) {
+		List<Jangle> jangleList =jangleRepository.findTop10ByViewcountGreaterThanOrderByViewcountDescBasic(viewCount);
 		if (jangleList != null && !jangleList.isEmpty())
 			return ResponseEntity.ok(jangleList);
 		else

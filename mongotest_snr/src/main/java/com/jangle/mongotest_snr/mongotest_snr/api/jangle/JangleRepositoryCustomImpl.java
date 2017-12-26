@@ -1,17 +1,22 @@
 package com.jangle.mongotest_snr.mongotest_snr.api.jangle;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.operation.AggregateOperation;
 
 //import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +28,11 @@ public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 	@Autowired
 	public JangleRepositoryCustomImpl (MongoOperations mongoOperations) {
 		this.mongoOperations = mongoOperations;
+	}
+	
+	@Override
+	public void save2(Jangle jangle) {
+		mongoOperations.save(jangle);
 	}
 
 	@Override
@@ -155,5 +165,56 @@ public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 		
 		return mongoOperations.find(query, Jangle.class);	
 	}
+
+	@Override
+	public List<Jangle> findTop10ByViewcountGreaterThanOrderByViewcountDescMongoOperation(int viewCount) {
+		Criteria cr=Criteria.where("viewCount").gt(viewCount);
+		Pageable pageable=PageRequest.of(0, 10, new Sort(Sort.Direction.DESC, "viewCount"));
+		Query query=new Query();
+		query.addCriteria(cr);
+		query.with(pageable);
+		return mongoOperations.find(query, Jangle.class);	
+	}
+
+	@Override
+	public List<Jangle> findTop10ByViewcountGreaterThanOrderByViewcountDescBasic(int viewCount) {
+		BasicQuery bQuery = new BasicQuery("{ 'viewCount' : { $gt : "+viewCount+" }}");
+		bQuery.with(PageRequest.of(0, 10, new Sort(Sort.Direction.DESC, "viewCount")));
+		return mongoOperations.find(bQuery, Jangle.class);
+	}
+
+	@Override
+	public List<Jangle> findTop10MostViewed() {
+		Criteria cr=Criteria.where("whereCount").gt(0);
+		Pageable pageable=PageRequest.of(0, 10, new Sort(Sort.Direction.DESC, "viewCount"));
+		Query query=new Query();
+		query.addCriteria(cr);
+		query.with(pageable);
+		return mongoOperations.find(query, Jangle.class);	
+	}
+	
+	@Override	
+	public void findTop10ViewCount()
+	{
+		Aggregation aggregation = Aggregation.newAggregation(
+				Aggregation.match(Criteria.where("viewCount").gte(0)),
+                Aggregation.group("userId").sum("viewCount").as("toplamView"),
+                Aggregation.match(Criteria.where("toplamView").gte(10000)),
+                Aggregation.sort(new Sort(Sort.Direction.DESC, "toplamView")),
+                Aggregation.limit(10)
+				);
+		
+		AggregationResults<Jangle> sonuc =mongoOperations.aggregate(aggregation, "jangle", Jangle.class);
+		
+		Iterator<Jangle> ite=sonuc.iterator();
+		while(ite.hasNext())
+		{
+			System.out.println(ite.next().getUserId());
+			System.out.println(ite.next().getId());
+		}
+		
+	}
+
+	
 
 }

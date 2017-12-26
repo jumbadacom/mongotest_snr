@@ -11,6 +11,8 @@ public interface JangleService  {
 	
 	public ResponseEntity<Void> save(Jangle comment);
 	
+	public ResponseEntity<Void> save2(Jangle comment);
+	
 	public ResponseEntity<Void> delete(String id);
 	
 	public ResponseEntity<Void> update(String id,Jangle comment);
@@ -36,4 +38,12 @@ public interface JangleService  {
 	public ResponseEntity<List<Jangle>> getByUserUnlikedJangles(String userId);
 	
 	public ResponseEntity<List<Jangle>> getByViewCountBetweenAndLikeCountBetween(int viewCountBiggerThan,int viewCountLessThan, int likeCountBiggerThan, int likeCountLessThan);
+	
+	public ResponseEntity<List<Jangle>> findTop10ByViewcountGreaterThanOrderByViewcountDescMongoOperationCriteria(int viewCount);
+	
+	public ResponseEntity<List<Jangle>> findTop10ByViewcountGreaterThanOrderByViewcountDescMongoOperationRepository(int viewCount);
+	
+	public ResponseEntity<List<Jangle>> findTop10ByViewcountGreaterThanOrderByViewcountDescMongoOperationQuery(int viewCount);
+	
+	public ResponseEntity<List<Jangle>> findTop10ByViewcountGreaterThanOrderByViewcountDescMongoOperationBasic(int viewCount);
 }

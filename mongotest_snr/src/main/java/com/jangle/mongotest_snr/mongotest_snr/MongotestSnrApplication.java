@@ -1,10 +1,12 @@
 package com.jangle.mongotest_snr.mongotest_snr;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -14,6 +16,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import com.jangle.mongotest_snr.mongotest_snr.api.jangle.Jangle;
 import com.jangle.mongotest_snr.mongotest_snr.api.jangle.JangleRepository;
@@ -50,9 +53,11 @@ public class MongotestSnrApplication {
 			
 		return args -> {
 			
-			List<User> followers= userRepository.findAll();
+//			List<User> followers= userRepository.findAll();
 			
-			List<Jangle> jangles= jangleRepository.findAll(PageRequest.of(0, 1000000)).getContent();
+//			List<Jangle> jangles= jangleRepository.findAll(PageRequest.of(0, 1000000)).getContent();
+			
+			jangleRepository.findTop10ViewCount();
 			
 			/*
 			StringBuilder sb = null;
@@ -209,8 +214,9 @@ public class MongotestSnrApplication {
 			System.out.println("İşlem Bitti");
 */
 			
+			/*
 			List<Tail> tailList=new ArrayList<>();
-			for (int i = 0; i < 12000000; i++) {
+			for (int i = 0; i < 500000; i++) {
 				try {
 					Tail tail = new Tail();
 					List<ObjectId> hidedUsers=new ArrayList<>();
@@ -273,6 +279,9 @@ public class MongotestSnrApplication {
 			
 			tailRepository.saveAll(tailList);
 			System.out.println("İşlem Bitti");
+			*/
+			
+			
 		};
 		
 	

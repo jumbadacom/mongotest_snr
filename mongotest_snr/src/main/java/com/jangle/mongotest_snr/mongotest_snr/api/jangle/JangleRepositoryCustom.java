@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 public interface JangleRepositoryCustom {
+	
+	public void save2(Jangle jangle);
 
 	public List<Jangle> getByUserId(Pageable pageable, String userId); 
 
@@ -29,4 +31,12 @@ public interface JangleRepositoryCustom {
 	public List<Jangle> getByViewCountOverAndLikeCountOver(Pageable pageable, int viewCount, int likeCount);
 	
 	public List<Jangle> getByUserUnlikedJangles(Pageable pageable, String userId);
+	
+	public List<Jangle> findTop10ByViewcountGreaterThanOrderByViewcountDescMongoOperation(int viewCount);
+
+	public List<Jangle> findTop10ByViewcountGreaterThanOrderByViewcountDescBasic(int viewCount);
+	
+	public List<Jangle> findTop10MostViewed();
+
+	public void findTop10ViewCount();
 }
