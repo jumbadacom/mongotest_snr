@@ -162,6 +162,7 @@ public class JangleRepositoryCustomImpl implements JangleRepositoryCustom {
 	}
 	
 	
+	
 	public AggregationResults<BasicDBObject> test() {
 		
 		AggregationOperation group = Aggregation.group("userId").sum("viewCount").as("userViewCount");
