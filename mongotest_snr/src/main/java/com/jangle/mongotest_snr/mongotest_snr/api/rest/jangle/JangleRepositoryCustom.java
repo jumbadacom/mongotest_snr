@@ -3,8 +3,10 @@ package com.jangle.mongotest_snr.mongotest_snr.api.rest.jangle;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 
 import com.jangle.mongotest_snr.mongotest_snr.api.enums.Type;
+import com.mongodb.BasicDBObject;
 
 public interface JangleRepositoryCustom {
 
@@ -31,4 +33,8 @@ public interface JangleRepositoryCustom {
 	public List<Jangle> getByViewCountOverAndLikeCountOver(Pageable pageable, int viewCount, int likeCount);
 	
 	public List<Jangle> getByUserUnlikedJangles(Pageable pageable, String userId);
+	
+	public AggregationResults<BasicDBObject> test();
+	
+	public AggregationResults<TypeCount> test2(String userId);
 }
