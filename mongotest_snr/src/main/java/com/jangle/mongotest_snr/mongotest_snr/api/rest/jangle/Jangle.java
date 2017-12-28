@@ -51,7 +51,7 @@ public class Jangle {
 	
 	@Indexed(unique=false,background=true,sparse=true)
 	@NotNull
-	@JsonProperty
+	@JsonProperty(value="like_count")
 	private Integer likeCount = 0;
 	
 	@JsonProperty

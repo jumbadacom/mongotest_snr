@@ -29,4 +29,6 @@ public interface TailRepositoryCustom {
 	public List<Tail> getByViewCountBetweenAndLikeCountBetween(Pageable pageable, int viewCountBiggerThan, int viewCountLessThan,int likeCountBiggerThan, int likeCountLessThan);
 
 	public List<Tail> getByViewCountOverAndLikeCountOver(Pageable pageable, int viewCount, int likeCount);
+	
+	public void denemeSorgu();
 }

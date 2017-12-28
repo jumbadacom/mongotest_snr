@@ -18,6 +18,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 
@@ -31,6 +32,8 @@ import com.jangle.mongotest_snr.mongotest_snr.api.rest.test.TestDocument;
 import com.jangle.mongotest_snr.mongotest_snr.api.rest.test.TestRepository;
 import com.jangle.mongotest_snr.mongotest_snr.api.rest.user.UserRepository;
 import com.jangle.mongotest_snr.mongotest_snr.api.rest.user.model.User;
+import com.jangle.mongotest_snr.mongotest_snr.api.rest.chatmessage.ChatMessage;
+import com.jangle.mongotest_snr.mongotest_snr.api.rest.chatmessage.ChatMessageRepository;
 import com.mongodb.BasicDBObject;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +49,7 @@ public class MongotestSnrApplication {
 
 
 	@Bean
-	public CommandLineRunner init(UserRepository userRepository, JangleRepository jangleRepository,TailRepository tailRepository,TestRepository testRepository) {
+	public CommandLineRunner init(UserRepository userRepository, JangleRepository jangleRepository,TailRepository tailRepository,TestRepository testRepository,ChatMessageRepository chatMessageRepository) {
 		log.debug("CommandLiner Started");
 		
 	
@@ -62,13 +65,12 @@ public class MongotestSnrApplication {
 		
 			
 		return args -> {
-			
-			Instant before =Instant.now();
-			AggregationResults<BasicDBObject> j=jangleRepository.test();
+//			Instant before =Instant.now();
+//			AggregationResults<BasicDBObject> j=jangleRepository.test();
 			//List<Jangle> j = jangleRepository.getByMostSharedAndUserId("5a3903b9dcf7c604d4625d7a");
-			Instant after = Instant.now();		
-			long diff = Duration.between(before, after).toMillis();
-			log.info("diff "+diff + " ms count :"+j.getRawResults().size());
+//			Instant after = Instant.now();		
+//			long diff = Duration.between(before, after).toMillis();
+//			log.info("diff "+diff + " ms count :"+j.getRawResults().size());
 			//log.info("diff "+diff + " ms count :"+j.size());
 			/*
 			for(int x=0;x<10;x++) {
@@ -76,22 +78,13 @@ public class MongotestSnrApplication {
 				testRepository.insert(t1);
 				}
 				*/
-			
-//			List<User> followers= userRepository.findAll();
 
-//			List<Jangle> jangles= jangleRepository.findAll(PageRequest.of(0, 1000000)).getContent();
+			Pageable pageable = PageRequest.of(0, 1000000, new Sort(Sort.Direction.DESC, "id"));
 			
-			
-		//	List<User> followers= userRepository.findAll();
-			
-		//	List<Jangle> jangles= jangleRepository.findAll(PageRequest.of(0, 1000000)).getContent();
-
-			
-			/*
 			StringBuilder sb = null;
 			List<User> kullanicilar= new ArrayList<>();
 			List<User> followers= new ArrayList<>();
-			for (int i = 0; i < 3000000 ; i++) {
+			/*for (int i = 0; i < 3000000 ; i++) {
 				try {
 					
 				sb = new StringBuilder();
@@ -164,10 +157,13 @@ public class MongotestSnrApplication {
 				}
 			}
 			
-			kullanicilar = userRepository.saveAll(kullanicilar);
+			kullanicilar = userRepository.saveAll(kullanicilar);*/
+			
+//			followers=userRepository.findAll(pageable).getContent();
+//			kullanicilar=userRepository.findAll(pageable).getContent();
 			
 			List<Jangle> jangleList=new ArrayList<>();
-			for (int i = 0; i < 25000000; i++) {
+			/*for (int i = 0; i < 25000000; i++) {
 				try {
 					sb = new StringBuilder();
 					Jangle jangle = new Jangle();
@@ -227,7 +223,6 @@ public class MongotestSnrApplication {
 					{
 						jangleRepository.saveAll(jangleList);
 						jangleList=new ArrayList<>();
-						System.out.println("100.000 adet jangle kaydedildi");
 						System.gc();
 					}
 					
@@ -238,12 +233,13 @@ public class MongotestSnrApplication {
 				}
 			}
 			
-			jangleRepository.saveAll(jangleList);
-			System.out.println("İşlem Bitti");
-*/
-			/*
-			List<Tail> tailList=new ArrayList<>();
-			for (int i = 0; i < 500000; i++) {
+			jangleRepository.saveAll(jangleList);*/
+			
+//			jangleList=jangleRepository.findAll(pageable).getContent();
+
+			
+			/*List<Tail> tailList=new ArrayList<>();
+			for (int i = 0; i < 25000000; i++) {
 				try {
 					Tail tail = new Tail();
 					List<ObjectId> hidedUsers=new ArrayList<>();
@@ -252,7 +248,7 @@ public class MongotestSnrApplication {
 					}
 					tail.setHideUserId(hidedUsers);
 					
-					tail.setJangleId(jangles.get(r.nextInt(jangles.size()-1)).getId());
+					tail.setJangleId(jangleList.get(r.nextInt(jangleList.size()-1)).getId());
 					
 					List<ObjectId> likedUsers=new ArrayList<>();
 					while (r.nextInt(100) <= 60) {
@@ -272,10 +268,10 @@ public class MongotestSnrApplication {
 					
 					switch ((r.nextInt(3)))
 					{
-						case 1: tail.setType(com.jangle.mongotest_snr.mongotest_snr.api.tail.Type.IMAGE); break;
-						case 2: tail.setType(com.jangle.mongotest_snr.mongotest_snr.api.tail.Type.VIDEO); break;
-						case 3: tail.setType(com.jangle.mongotest_snr.mongotest_snr.api.tail.Type.SOUND); break;
-						default : tail.setType(com.jangle.mongotest_snr.mongotest_snr.api.tail.Type.IMAGE); break;
+						case 1: tail.setType(Type.IMAGE); break;
+						case 2: tail.setType(Type.VIDEO); break;
+						case 3: tail.setType(Type.SOUND); break;
+						default : tail.setType(Type.IMAGE); break;
 					}
 					
 					tail.setTailUserId(followers.get(r.nextInt(followers.size())).getId());
@@ -285,7 +281,9 @@ public class MongotestSnrApplication {
 					tail.setViewCount(r.nextInt(123456));
 					
 					Calendar takvim=Calendar.getInstance();
-					takvim.add(Calendar.DAY_OF_MONTH, r.nextInt(900)*-1);
+					takvim.set(Calendar.SECOND, 0);
+					takvim.set(Calendar.MILLISECOND, 0);
+					takvim.add(Calendar.MINUTE, r.nextInt(2628000)*-1);
 					tail.setRegisteredTime(LocalDateTime.ofInstant(takvim.toInstant(), ZoneId.systemDefault()));
 					tailList.add(tail);
 					
@@ -293,7 +291,6 @@ public class MongotestSnrApplication {
 					{
 						tailRepository.saveAll(tailList);
 						tailList=new ArrayList<>();
-						System.out.println("100.000 adet tail kaydedildi");
 						System.gc();
 					}
 					
@@ -305,8 +302,53 @@ public class MongotestSnrApplication {
 			}
 			
 			tailRepository.saveAll(tailList);
-			System.out.println("İşlem Bitti");
+			System.out.println("İşlem Bitti");*/
+			
+		/*	List<ChatMessage> chatMessageList=new ArrayList<>();
+			for(int i =0; i<1000000 ; i++)
+			{
+				ChatMessage chatMessage=new ChatMessage();
+				chatMessage.setFromUserId(kullanicilar.get(r.nextInt(kullanicilar.size()-1)).getId());
+				chatMessage.setToUserId(kullanicilar.get(r.nextInt(kullanicilar.size()-1)).getId());
+				chatMessage.setPassive((r.nextInt(10)<1));
+				chatMessage.setToUserIdWasSee((r.nextInt(10)>2));
+				Calendar takvim=Calendar.getInstance();
+				takvim.add(Calendar.SECOND, r.nextInt(31536000)*-1);
+				LocalDateTime ldt=LocalDateTime.ofInstant(takvim.toInstant(), ZoneId.systemDefault());
+				chatMessage.setRegisteredTime(ldt);
+				
+				
+				StringBuilder mesajKelime = new StringBuilder();
+				List<String> jangleTags=new ArrayList<>();
+				mesajKelime.append(kelimeler[r.nextInt(kelimeler.length - 1)]);
+				int randomKelimeSayac = r.nextInt(25) + 1;
+				while (randomKelimeSayac > 0) {
+					mesajKelime.append(" ");
+					String randomKelime=kelimeler[r.nextInt(kelimeler.length - 1)];
+					if(randomKelime==null || randomKelime.length()==0)
+					{
+						continue;
+					}
+					mesajKelime.append(randomKelime);
+					randomKelimeSayac--;
+				}
+				chatMessage.setMessage(mesajKelime.toString());
+				
+				chatMessageList.add(chatMessage);
+				
+				if(chatMessageList.size()%10000==0)
+				{
+					chatMessageRepository.saveAll(chatMessageList);
+					chatMessageList=new ArrayList<>();
+					System.gc();
+				}
+			}
+			chatMessageRepository.saveAll(chatMessageList);
+			System.out.println("İşlem Tamam");
 			*/
+			
+			jangleRepository.test2("");
+			
 		};
 		
 	

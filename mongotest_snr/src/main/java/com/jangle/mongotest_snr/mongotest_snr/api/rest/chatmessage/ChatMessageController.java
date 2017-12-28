@@ -1,5 +1,4 @@
-package com.jangle.mongotest_snr.mongotest_snr.api.rest.jangle;
-
+package com.jangle.mongotest_snr.mongotest_snr.api.rest.chatmessage;
 
 import java.util.List;
 
@@ -17,14 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jangle.mongotest_snr.mongotest_snr.api.enums.Type;
 
 
-@RequestMapping(value = "api/jangles")
+@RequestMapping(value = "api/chatmessage")
 @RestController
 //@RequiredArgsConstructor(onConstructor = @__(@Autowired) )
-public class JangleController {
+public class ChatMessageController {
 
-	private final JangleService jangleService;
+	private final ChatMessageService jangleService;
 
-	public JangleController(JangleService jangleService)
+	public ChatMessageController(ChatMessageService jangleService)
 	{
 		this.jangleService=jangleService;
 	}
@@ -37,70 +36,70 @@ public class JangleController {
 //	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Jangle> getById(@PathVariable String id) {
+	public ResponseEntity<ChatMessage> getById(@PathVariable String id) {
 		return jangleService.getById(id);
 	}
 
 	@GetMapping("/getByUserId/{userId}")
-	public ResponseEntity<List<Jangle>> getByUserId(@PathVariable String userId) {
+	public ResponseEntity<List<ChatMessage>> getByUserId(@PathVariable String userId) {
 		return jangleService.getByUserId(userId);
 	}
 
 	@GetMapping("/getByMostLikedAndUserId/{userId}")
-	public ResponseEntity<List<Jangle>> getByMostLikedAndUserId(String userId) {
+	public ResponseEntity<List<ChatMessage>> getByMostLikedAndUserId(String userId) {
 		return jangleService.getByMostLikedAndUserId(userId);
 	}
 
 	@GetMapping("/getByMostSharedAndUserId/{userId}")
-	public ResponseEntity<List<Jangle>> getByMostSharedAndUserId(String userId) {
+	public ResponseEntity<List<ChatMessage>> getByMostSharedAndUserId(String userId) {
 		return jangleService.getByMostSharedAndUserId(userId);
 	}
 
 	@GetMapping(path="/getByTypeAndUserId/{userId}/type/{type}")
-	public ResponseEntity<List<Jangle>> getByTypeAndUserId(@PathVariable(name="type") Type type, @PathVariable(name="userId") String userId) {
+	public ResponseEntity<List<ChatMessage>> getByTypeAndUserId(@PathVariable(name="type") Type type, @PathVariable(name="userId") String userId) {
 		return jangleService.getByTypeAndUserId(type, userId);
 	}
 
 	@GetMapping(path="/getByTypeAndUserIdAndIncludePassive/{userId}/type/{type}")
-	public ResponseEntity<List<Jangle>> getByTypeAndUserIdAndIncludePassive(@PathVariable(name="type") Type type, @PathVariable(name="userId") String userId) {
+	public ResponseEntity<List<ChatMessage>> getByTypeAndUserIdAndIncludePassive(@PathVariable(name="type") Type type, @PathVariable(name="userId") String userId) {
 		return jangleService.getByTypeAndUserIdAndIncludePassive(type, userId);
 	}
 
 	@GetMapping(path="/getByRecently/{userId}")
-	public ResponseEntity<List<Jangle>> getByRecently(String userId) {
+	public ResponseEntity<List<ChatMessage>> getByRecently(String userId) {
 		return jangleService.getByRecently(userId);
 	}
 
 	@GetMapping(path="/getByRecentlyAndIncludePassive/{userId}")
-	public ResponseEntity<List<Jangle>> getByRecentlyAndIncludePassive(String userId) {
+	public ResponseEntity<List<ChatMessage>> getByRecentlyAndIncludePassive(String userId) {
 		return jangleService.getByRecentlyAndIncludePassive(userId);
 	}
 
 	@GetMapping(path="/getByTagAndRecentlyAndIncludePassive/{userId}")
-	public ResponseEntity<List<Jangle>> getByTagAndRecentlyAndIncludePassive(@PathVariable String userId,@RequestBody List<String> tags) {
+	public ResponseEntity<List<ChatMessage>> getByTagAndRecentlyAndIncludePassive(@PathVariable String userId,@RequestBody List<String> tags) {
 		return jangleService.getByTagAndRecentlyAndIncludePassive(userId,tags);
 	}
 
 	@GetMapping(path="/getByTagAndRecently/{userId}")
-	public ResponseEntity<List<Jangle>> getByTagAndRecently(@PathVariable String userId,@RequestBody List<String> tags) {
+	public ResponseEntity<List<ChatMessage>> getByTagAndRecently(@PathVariable String userId,@RequestBody List<String> tags) {
 		return jangleService.getByTagAndRecently(userId,tags);
 	}
 	
 	@GetMapping(path="/getByViewCountBetweenAndLikeCountBetween",params= {"viewCountBiggerThan","viewCountLessThan","likeCountBiggerThan","likeCountLessThan"})
-	public ResponseEntity<List<Jangle>> getByViewCountBetweenAndLikeCountBetween(@RequestParam Integer viewCountBiggerThan,@RequestParam Integer viewCountLessThan,
+	public ResponseEntity<List<ChatMessage>> getByViewCountBetweenAndLikeCountBetween(@RequestParam Integer viewCountBiggerThan,@RequestParam Integer viewCountLessThan,
 			@RequestParam Integer likeCountBiggerThan,@RequestParam Integer likeCountLessThan) 
 	{
 		return jangleService.getByViewCountBetweenAndLikeCountBetween(viewCountBiggerThan, viewCountLessThan, likeCountBiggerThan, likeCountLessThan);
 	}	
 	
 	@GetMapping(path="/getByUserUnlikedJangles/{userId}/userId")
-	public ResponseEntity<List<Jangle>> getByUserUnlikedJangles(@PathVariable String userId) 
+	public ResponseEntity<List<ChatMessage>> getByUserUnlikedJangles(@PathVariable String userId) 
 	{
 		return jangleService.getByUserUnlikedJangles(userId);
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> save(@RequestBody Jangle jangle) {
+	public ResponseEntity<Void> save(@RequestBody ChatMessage jangle) {
 		return jangleService.save(jangle);
 
 	}
@@ -112,7 +111,7 @@ public class JangleController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> update(@PathVariable String id, @RequestBody Jangle jangle) {
+	public ResponseEntity<Void> update(@PathVariable String id, @RequestBody ChatMessage jangle) {
 		return jangleService.update(id,jangle);
 	}
 	
